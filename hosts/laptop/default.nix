@@ -58,8 +58,6 @@
     ];
   };
 
-  programs.light.enable = true;             # Monitor Brightness
-
   services = {
     printing = {                            # Printing
       enable = true;
@@ -71,9 +69,4 @@
       "com.github.tchx84.Flatseal"
     ];
   };
-
-  systemd.tmpfiles.rules = [                # Temporary Bluetooth Fix
-    "d /var/lib/bluetooth 700 root root - -"
-  ];
-  systemd.targets."bluetooth".after = ["systemd-tmpfiles-setup.service"];
 }
