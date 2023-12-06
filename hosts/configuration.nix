@@ -34,8 +34,8 @@
               import ../modules/theming );
 
   users.users.${vars.user} = {              # System User
-  isNormalUser = true;
-  extraGroups = [ "wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd" "plex" ];
+    isNormalUser = true;
+    extraGroups = [ "wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd" "plex" ];
   };
 
   time.timeZone = "Europe/Paris";        # Time zone and Internationalisation
@@ -132,7 +132,8 @@
     };
   };
 
-  flatpak.enable = true;                    # Enable Flatpak (see module options)
+  #xdg.portal.enable = true;
+  #services.flatpak.enable = true;                    # Enable Flatpak (see module options)
 
   nix = {                                   # Nix Package Manager Settings
     settings ={
@@ -168,7 +169,6 @@
 
     programs = {
       home-manager.enable = true;
-      dconf.enable = true;
     };
   };
 }

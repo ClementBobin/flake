@@ -15,9 +15,17 @@
   ./flatpak.nix
   ./wofi.nix
   #./games.nix
-  ./tools/default.nix
-  ./environment/default.nix
-  ./documentation/default.nix
-  ./communication/default.nix
-  ./app/default.nix
+  ./tools/filezilla.nix
+  ./tools/gitkraken.nix
+  ./tools/parsec.nix
+  ./environment/csharp.nix
+  ./environment/nodejs.nix
+  ./environment/python.nix
+  ./environment/wine.nix
+  ./documentation/libreOffice.nix
+  ./documentation/obsidian.nix
+  ./communication/discord.nix
+  ./communication/teams.nix
+  ./app/brave.nix
+  ./app/spotify.nix
 ]

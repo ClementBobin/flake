@@ -55,8 +55,6 @@
     ];
   };
 
-  programs.light.enable = true;             # Monitor Brightness
-
   services = {
     printing = {                            # Printing and drivers for TS5300
       enable = true;
