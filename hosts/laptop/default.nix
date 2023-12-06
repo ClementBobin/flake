@@ -14,7 +14,7 @@
 #               └─ docker.nix
 #
 
-{ pkgs, vars, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -22,25 +22,22 @@
     ../../modules/desktops/virtualisation/docker.nix
   ];
 
-  boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+  boot = {                                  # Boot Options
     loader = {
-      grub = {
-        enable = true;
-        useOSProber = true;
-        configurationLimit = 5;
-        device = "/dev/sda";
-        #efiSupport = true;
-        #enableCryptodisk = true;
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
       };
-      timeout = 15;
+      grub = {                              # Grub Dual Boot
+        enable = true;
+        devices = [ "nodev" ];
+        efiSupport = true;
+        useOSProber = true;                 # Find All Boot Options
+        configurationLimit = 2;
+      };
+      timeout = 1;
     };
-    #initrd.luks.devices = {
-      #root = {
-        #device = "/dev/disk/by-label/nixos";
-        #preLVM = true;
-      #};
-    #}; 
+    kernelPackages = pkgs.linuxPackages_latest;
   };
 
   hardware.sane = {                         # Scanning
@@ -48,8 +45,8 @@
     extraBackends = [ pkgs.sane-airscan ];
   };
 
-  laptop.enable = true;                     # Laptop Modules
-  bspwm.enable = true;                      # Window Manager
+  # laptop.enable = true;                     # Laptop Modules
+  services.xserver.windowManager.bspwm.enable = true;                      # Window Manager
 
   environment = {
     systemPackages = with pkgs; [           # System-Wide Packages
@@ -58,9 +55,12 @@
     ];
   };
 
+  programs.light.enable = true;             # Monitor Brightness
+
   services = {
-    printing = {                            # Printing
+    printing = {                            # Printing and drivers for TS5300
       enable = true;
+      drivers = [ pkgs.cnijfilter2 ];
     };
   };
 
@@ -69,4 +69,9 @@
       "com.github.tchx84.Flatseal"
     ];
   };
+
+  systemd.tmpfiles.rules = [                # Temporary Bluetooth Fix
+    "d /var/lib/bluetooth 700 root root - -"
+  ];
+  systemd.targets."bluetooth".after = ["systemd-tmpfiles-setup.service"];
 }

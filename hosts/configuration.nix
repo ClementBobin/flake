@@ -22,7 +22,7 @@
 #           └─ default.nix
 #
 
-{ config, lib, pkgs, unstable, inputs, vars, ... }:
+{ config, lib, pkgs, stable, inputs, vars, ... }:
 
 {
   imports = ( import ../modules/desktops ++
@@ -99,7 +99,7 @@
 		# - ./<host>/default.nix
 		# - ../modules
     ] ++
-    (with unstable; [
+    (with stable; [
       # Apps
     ]);
   };
