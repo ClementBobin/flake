@@ -14,7 +14,7 @@
   ./alacritty.nix
   ./flatpak.nix
   ./wofi.nix
-  #./games.nix
+  ./games.nix
   ./tools/filezilla.nix
   ./tools/gitkraken.nix
   ./tools/parsec.nix

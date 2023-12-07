@@ -19,7 +19,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/desktops/virtualisation/docker.nix
+    ../../modules/desktops/virtualisation
+    ../../modules/engine/unity.nix  
   ];
 
   boot = {                                  # Boot Options
