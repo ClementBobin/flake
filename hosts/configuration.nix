@@ -69,6 +69,17 @@
     polkit.enable = true;
   };
 
+    hardware.bluetooth = {
+        enable = true;
+        #hsphfpd.enable = true; # HSP  HFS daemon
+        settings = {
+                General = {
+                        Enable = "Source,Sink,Media,Socket";
+                };
+ 
+        };
+  };
+
   environment = {
     variables = {                           # Environment Variables
       TERMINAL = "${vars.terminal}";
