@@ -112,6 +112,11 @@
 		unrar # Rar Files
 		zip # Zip
 
+    nmap # network discovery and security auditing
+    yed # diagrams
+
+    kate # editor KDE
+
 		# Other Packages Found @
 		# - ./<host>/default.nix
 		# - ../modules

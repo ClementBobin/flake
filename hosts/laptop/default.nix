@@ -8,10 +8,11 @@
 #   │        ├─ default.nix *
 #   │        └─ hardware-configuration.nix
 #   └─ ./modules
+#       ├─ ./engine
+#       |   └─ ./unity.nix
 #       └─ ./desktops
 #           ├─ bspwm.nix
 #           └─ ./virtualisation
-#               └─ docker.nix
 #
 
 { pkgs, stable, ... }:
@@ -19,8 +20,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/desktops/virtualisation
-    ../../modules/engine/unity.nix  
+    ../../modules/desktops/virtualisation   # Docker/Virtualbox
+    ../../modules/engine/unity.nix
   ];
 
   boot = {                                  # Boot Options
@@ -36,7 +37,7 @@
         };
         timeout = 15;
     };
-    #initrd.luks.devices = {
+    #initrd.luks.devices = {                 # crypt disk
         #root = {
             #device = "/dev/disk/by-label/nixos";
             #preLVM = true;
@@ -49,11 +50,11 @@
     extraBackends = [ pkgs.sane-airscan ];
   };
 
-  networking.networkmanager.enable = true;
+  networking.networkmanager.enable = true; # network
 
   # laptop.enable = true;                     # Laptop Modules
   # services.xserver.windowManager.bspwm.enable = true;                      # Window Manager
-  services.xserver = {
+  services.xserver = {                        # graphique
     enable = true;
     displayManager = {
       sddm.enable = true;
@@ -68,8 +69,9 @@
       onlyoffice-bin    # Office
     ] ++
     (with stable; [
-      brave
-      discord
+      brave             # Browser
+      discord           # Communication
+      gimp              # Image editor
     ]);
   };
 
