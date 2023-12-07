@@ -22,10 +22,8 @@
   ./environment/nodejs.nix
   ./environment/python.nix
   ./environment/wine.nix
-  ./documentation/libreOffice.nix
   ./documentation/obsidian.nix
-  ./communication/discord.nix
+  #./communication/discord.nix
   ./communication/teams.nix
-  ./app/brave.nix
   ./app/spotify.nix
 ]

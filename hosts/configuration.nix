@@ -30,7 +30,7 @@
               import ../modules/hardware ++
               import ../modules/programs ++
               import ../modules/services ++
-              import ../modules/shell ++
+              import ../modules/shell ++ 
               import ../modules/theming );
 
   users.users.${vars.user} = {              # System User
@@ -55,7 +55,13 @@
   };
 
   console = {
-    keyMap = "us";
+    keyMap = "fr";
+  };
+
+  services.xserver = {
+    layout = "fr";
+    xkbVariant = "azerty";
+    xkbOptions = "eurosign:e";
   };
 
   security = {
@@ -113,6 +119,7 @@
   services = {
     printing = {                            # CUPS
       enable = true;
+      drivers = [ pkgs.cnijfilter2 ];
     };
     pipewire = {                            # Sound
       enable = true;
