@@ -5,7 +5,7 @@
 { pkgs, vars, ... }:
 
 {
-  users.groups.spotify.members = [ "${vars.user}" ];
+  users.groups.environment.members = [ "${vars.user}" ];
 
   environment.systemPackages = with pkgs; [
 		dotnet-sdk_8        # Csharp

@@ -5,14 +5,9 @@
 { pkgs, vars, ... }:
 
 {
- home-manager.users.${vars.user} = {
-    programs = {
-      unityhub = {
-        enable = true;
-      };
-      inkscape = {
-        enable = true;
-      };
-    };
-  };
+  users.groups.engine.members = [ "${vars.user}" ];
+
+  environment.systemPackages = with pkgs; [
+    unityhub                  
+  ];
 }
