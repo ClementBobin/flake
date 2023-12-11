@@ -7,7 +7,7 @@
 {
   config = lib.mkIf ( config.laptop.enable ) {
     services = {
-      tlp.enable = true;                          # Power Efficiency
+      power-profiles-daemon.enable = true;                          # Power Efficiency
       auto-cpufreq.enable = true;
     };
 
