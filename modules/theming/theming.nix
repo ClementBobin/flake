@@ -7,6 +7,7 @@
 {
   home-manager.users.${vars.user} = {
     home = {
+      packages = [ pkgs.dconf ];
       file.".config/wall".source = ./wall;
       file.".config/wall.mp4".source = ./wall.mp4;
       pointerCursor = {                     # System-Wide Cursor

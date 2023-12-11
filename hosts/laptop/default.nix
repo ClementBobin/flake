@@ -20,7 +20,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/desktops/virtualisation   # Docker/Virtualbox
+    ../../modules/desktops/virtualisation/docker.nix   # Docker/Virtualbox
+    ../../modules/desktops/virtualisation/virtualbox.nix
     ../../modules/engine/unity.nix
   ];
 
@@ -70,14 +71,15 @@
     ] ++
     (with stable; [
       brave             # Browser
+      firefox           # Browser
       discord           # Communication
       gimp              # Image editor
     ]);
   };
 
-  flatpak = {                               # Flatpak Packages (see module options)
-    extraPackages = [
-      "com.github.tchx84.Flatseal"
-    ];
-  };
+  #flatpak = {                               # Flatpak Packages (see module options)
+    #extraPackages = [
+      #"com.github.tchx84.Flatseal"
+    #];
+  #};
 }
