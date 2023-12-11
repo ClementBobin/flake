@@ -8,36 +8,42 @@
 #   │        ├─ default.nix *
 #   │        └─ hardware-configuration.nix
 #   └─ ./modules
+#       ├─ ./engine
+#       |   └─ ./unity.nix
 #       └─ ./desktops
 #           ├─ bspwm.nix
 #           └─ ./virtualisation
-#               └─ docker.nix
 #
 
-{ pkgs, ... }:
+{ pkgs, stable, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/desktops/virtualisation/docker.nix
+    ../../modules/desktops/virtualisation/docker.nix   # Docker/Virtualbox
+    ../../modules/desktops/virtualisation/virtualbox.nix
+    ../../modules/engine/unity.nix
   ];
 
   boot = {                                  # Boot Options
-    loader = {
-      efi = {
-        canTouchEfiVariables = true;
-        efiSysMountPoint = "/boot";
-      };
-      grub = {                              # Grub Dual Boot
-        enable = true;
-        devices = [ "nodev" ];
-        efiSupport = true;
-        useOSProber = true;                 # Find All Boot Options
-        configurationLimit = 2;
-      };
-      timeout = 1;
-    };
     kernelPackages = pkgs.linuxPackages_latest;
+    loader = {
+        grub = {
+            enable = true;
+            useOSProber = true;
+            configurationLimit = 5;
+            device = "/dev/sda";
+            #efiSupport = true;
+            #enableCryptodisk = true;
+        };
+        timeout = 15;
+    };
+    #initrd.luks.devices = {                 # crypt disk
+        #root = {
+            #device = "/dev/disk/by-label/nixos";
+            #preLVM = true;
+        #};
+    #};
   };
 
   hardware.sane = {                         # Scanning
@@ -45,33 +51,35 @@
     extraBackends = [ pkgs.sane-airscan ];
   };
 
+  networking.networkmanager.enable = true; # network
+
   # laptop.enable = true;                     # Laptop Modules
-  services.xserver.windowManager.bspwm.enable = true;                      # Window Manager
+  # services.xserver.windowManager.bspwm.enable = true;                      # Window Manager
+  services.xserver = {                        # graphique
+    enable = true;
+    displayManager = {
+      sddm.enable = true;
+    };
+    desktopManager.plasma5.enable = true;
+    windowManager.qtile.enable = true;
+  };
 
   environment = {
     systemPackages = with pkgs; [           # System-Wide Packages
       simple-scan       # Scanning
       onlyoffice-bin    # Office
-    ];
+    ] ++
+    (with stable; [
+      brave             # Browser
+      firefox           # Browser
+      discord           # Communication
+      gimp              # Image editor
+    ]);
   };
 
-  programs.light.enable = true;             # Monitor Brightness
-
-  services = {
-    printing = {                            # Printing and drivers for TS5300
-      enable = true;
-      drivers = [ pkgs.cnijfilter2 ];
-    };
-  };
-
-  flatpak = {                               # Flatpak Packages (see module options)
-    extraPackages = [
-      "com.github.tchx84.Flatseal"
-    ];
-  };
-
-  systemd.tmpfiles.rules = [                # Temporary Bluetooth Fix
-    "d /var/lib/bluetooth 700 root root - -"
-  ];
-  systemd.targets."bluetooth".after = ["systemd-tmpfiles-setup.service"];
+  #flatpak = {                               # Flatpak Packages (see module options)
+    #extraPackages = [
+      #"com.github.tchx84.Flatseal"
+    #];
+  #};
 }

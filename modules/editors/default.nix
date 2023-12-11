@@ -13,6 +13,6 @@
 
 [
   ./vscode.nix
-  ./jetbrainIDE.nix
+  #./jetbrainIDE.nix
 ]
 

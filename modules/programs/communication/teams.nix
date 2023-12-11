@@ -5,11 +5,7 @@
 { config, pkgs, vars, ... }:
 
 {
-  communication = {
-    teams-for-linux.enable = true;
-  };
-
-  users.groups.teams-for-linux.members = [ "${vars.user}" ];
+  users.groups.communication.members = [ "${vars.user}" ];
 
   environment.systemPackages = with pkgs; [
     teams-for-linux                  # Teams

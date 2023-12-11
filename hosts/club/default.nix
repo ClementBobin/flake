@@ -1,37 +1,26 @@
 #
-#  Main system configuration. More information available in configuration.nix(5) man page.
+#  Specific system configuration settings for laptop
 #
 #  flake.nix
 #   ├─ ./hosts
 #   │   ├─ default.nix
-#   │   └─ configuration.nix *
+#   │   └─ ./laptop
+#   │        ├─ default.nix *
+#   │        └─ hardware-configuration.nix
 #   └─ ./modules
-#       ├─ ./desktops
-#       │   └─ default.nix
-#       ├─ ./editors
-#       │   └─ default.nix
-#       ├─ ./hardware
-#       │   └─ default.nix
-#       ├─ ./programs
-#       │   └─ default.nix
-#       ├─ ./services
-#       │   └─ default.nix
-#       ├─ ./shell
-#       │   └─ default.nix
-#       └─ ./theming
-#           └─ default.nix
+#       ├─ ./engine
+#       |   └─ ./unity.nix
+#       └─ ./desktops
+#           ├─ bspwm.nix
+#           └─ ./virtualisation
 #
 
 { config, lib, pkgs, stable, inputs, vars, ... }:
 
 {
-  imports = ( import ../modules/desktops ++
-              import ../modules/editors ++
-              import ../modules/hardware ++
-              import ../modules/programs ++
-              import ../modules/services ++
-              import ../modules/shell ++ 
-              import ../modules/theming );
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
   users.users.${vars.user} = {              # System User
     isNormalUser = true;
@@ -69,15 +58,35 @@
     polkit.enable = true;
   };
 
-    hardware.bluetooth = {
-        enable = true;
-        #hsphfpd.enable = true; # HSP  HFS daemon
-        settings = {
-                General = {
-                        Enable = "Source,Sink,Media,Socket";
-                };
- 
+  boot = {                                  # Boot Options
+    kernelPackages = pkgs.linuxPackages_latest;
+    loader = {
+        grub = {
+            enable = true;
+            useOSProber = true;
+            configurationLimit = 5;
+            device = "/dev/sda";
         };
+        timeout = 15;
+    };
+  };
+
+  hardware.sane = {                         # Scanning
+    enable = true;
+    extraBackends = [ pkgs.sane-airscan ];
+  };
+
+  networking.networkmanager.enable = true; # network
+
+  # club.enable = true;                     # Club Modules
+  # services.xserver.windowManager.bspwm.enable = true;                      # Window Manager
+  services.xserver = {                        # graphique
+    enable = true;
+    displayManager = {
+      sddm.enable = true;
+    };
+    desktopManager.plasma5.enable = true;
+    windowManager.qtile.enable = true;
   };
 
   environment = {
@@ -87,50 +96,51 @@
       VISUAL = "${vars.editor}";
     };
     systemPackages = with pkgs; [           # System-Wide Packages
-		# Terminal
-		git # Version Control
-		killall # Process Killer
-		nano # Text Editor
-		nix-tree # Browse Nix Store
-		wget # Retriever
-		tree # View tree 
-    
-    # Video/Audio
-		alsa-utils # Audio Control
-		feh # Image Viewer
-		mpv # Media Player
-		pavucontrol # Audio Control
-		pipewire # Audio Server/Control
-		pulseaudio # Audio Server/Control
-		vlc # Media Player
-		stremio # Media Streamer
-		
-		# File Management
-		okular # PDF Viewer
-		p7zip # Zip Encryption
-		unzip # Zip Files
-		unrar # Rar Files
-		zip # Zip
+      # Terminal
+      git # Version Control
+      killall # Process Killer
+      nano # Text Editor
+      nix-tree # Browse Nix Store
+      wget # Retriever
+      tree # View tree 
+      
+      # Video/Audio
+      alsa-utils # Audio Control
+      feh # Image Viewer
+      mpv # Media Player
+      pavucontrol # Audio Control
+      pipewire # Audio Server/Control
+      pulseaudio # Audio Server/Control
+      vlc # Media Player
+      stremio # Media Streamer
+      
+      # File Management
+      okular # PDF Viewer
+      p7zip # Zip Encryption
+      unzip # Zip Files
+      unrar # Rar Files
+      zip # Zip
 
-    nmap # network discovery and security auditing
-    yed # diagrams
+      nmap # network discovery and security auditing
+      yed # diagrams
 
-    kate # editor KDE
+      kate # editor KDE
+      simple-scan # Scanning
+      onlyoffice-bin # Office
+      docker
+      vscode
 
-		# Other Packages Found @
-		# - ./<host>/default.nix
-		# - ../modules
+      # windows compatibility
+      wine            # wine
+      winetrick
+
+      # teams
+      teams-for-linux
     ] ++
     (with stable; [
-      # Apps
+        brave
     ]);
   };
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   services = {
     printing = {                            # CUPS
@@ -154,9 +164,6 @@
       '';
     };
   };
-
-  #xdg.portal.enable = true;
-  #services.flatpak.enable = true;                    # Enable Flatpak (see module options)
 
   nix = {                                   # Nix Package Manager Settings
     settings ={

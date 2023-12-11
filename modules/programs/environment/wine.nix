@@ -5,11 +5,7 @@
 { config, pkgs, vars, ... }:
 
 {
-  environment = {
-    wine.enable = true;
-  };
-
-  users.groups.wine.members = [ "${vars.user}" ];
+  users.groups.environment.members = [ "${vars.user}" ];
 
   environment.systemPackages = with pkgs; [
 		wine            # wine

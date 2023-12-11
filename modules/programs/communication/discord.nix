@@ -5,11 +5,7 @@
 { config, pkgs, vars, ... }:
 
 {
-  communication = {
-    discord.enable = true;
-  };
-
-  users.groups.discord.members = [ "${vars.user}" ];
+  users.groups.communication.members = [ "${vars.user}" ];
 
   environment.systemPackages = with pkgs; [
     discord                  # discord
