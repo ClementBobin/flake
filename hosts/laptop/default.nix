@@ -74,6 +74,7 @@
       firefox           # Browser
       discord           # Communication
       gimp              # Image editor
+      wireshark
     ]);
   };
 
