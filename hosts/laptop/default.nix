@@ -31,7 +31,7 @@
         grub = {
             enable = true;
             useOSProber = true;
-            configurationLimit = 5;
+            configurationLimit = 15;
             device = "/dev/sda";
             #efiSupport = true;
             #enableCryptodisk = true;
@@ -53,8 +53,8 @@
 
   networking.networkmanager.enable = true; # network
 
-  # laptop.enable = true;                     # Laptop Modules
-  # services.xserver.windowManager.bspwm.enable = true;                      # Window Manager
+  laptop.enable = true;                       # Laptop Modules
+  #hyprland.enable = true;                     # Window Manager
   services.xserver = {                        # graphique
     enable = true;
     displayManager = {
@@ -74,12 +74,13 @@
       firefox           # Browser
       discord           # Communication
       gimp              # Image editor
+      wireshark
     ]);
   };
 
-  #flatpak = {                               # Flatpak Packages (see module options)
-    #extraPackages = [
-      #"com.github.tchx84.Flatseal"
-    #];
-  #};
+  flatpak = {                               # Flatpak Packages (see module options)
+    extraPackages = [
+      "com.github.tchx84.Flatseal"
+    ];
+  };
 }
