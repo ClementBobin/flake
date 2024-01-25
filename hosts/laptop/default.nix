@@ -21,6 +21,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/desktops/virtualisation/docker.nix   # Docker/Virtualbox
+    #../../modules/desktops/virtualisation/podman.nix
     ../../modules/desktops/virtualisation/virtualbox.nix
     ../../modules/engine/unity.nix
   ];
@@ -68,6 +69,7 @@
     systemPackages = with pkgs; [           # System-Wide Packages
       simple-scan       # Scanning
       onlyoffice-bin    # Office
+      php82Extensions.xdebug
     ] ++
     (with stable; [
       brave             # Browser
@@ -75,6 +77,7 @@
       discord           # Communication
       gimp              # Image editor
       wireshark
+      # dbeaver           # Delete one of the two
     ]);
   };
 
