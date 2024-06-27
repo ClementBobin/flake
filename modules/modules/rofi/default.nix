@@ -1,9 +1,6 @@
 _: { config, lib, pkgs, ... }:
 
 {
-  # Add options for rofi application switcher
-  options.rofi.enable = lib.mkEnableOption "rofi";
-
   # Install and configure rofi if desired
   config = lib.mkIf config.rofi.enable {
 

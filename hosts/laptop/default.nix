@@ -72,6 +72,12 @@
     wdisplays
     wl-clipboard
     youtube-dl
+
+    # Fuzzy file finding
+    fzf
+
+    # Cheat sheets
+    navi
   ]);
 
   flatpak.extraPackages = [
@@ -119,43 +125,19 @@
   dunst.enable = true;
   fcitx.enable = true;
   firefox.enable = true;
-  gtk.config.enable = true;
+  gtk.enable = true;
   hyprland.enable = true;
   kitty.enable = true;
   mangohud.enable = true;
   mpv.enable = true;
   neovim.enable = true;
   obs-studio.enable = true;
-  qt.config.enable = true;
+  #qt.enable = true;
   rofi.enable = true;
   starship.enable = true;
   vs-code.enable = true;
   waybar.enable = true;
   wlogout.enable = true;
-  xdg.config.enable = true;
+  xdg.enable = true;
   zsh.enable = true;
-
-  # Configure user experience
-  home = {
-
-    # Home variables
-    stateVersion = "22.11";
-
-    # Set environment variables
-    sessionVariables = {
-
-      # Programs to use
-      MENU_CMD = "~/.config/rofi/scripts/launch-rofi.sh";
-      EXIT_CMD = "~/.config/wlogout/scripts/launch-wlogout.sh";
-    };
-  };
-
-  programs = {
-
-    # Fuzzy file finding
-    fzf.enable = true;
-
-    # Cheat sheets
-    navi.enable = true;
-  };
 }

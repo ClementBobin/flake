@@ -223,6 +223,14 @@
   home-manager.users.${vars.user} = {
     home = {
       stateVersion = "23.11";
+
+      # Set environment variables
+      sessionVariables = {
+
+        # Programs to use
+        MENU_CMD = "~/.config/rofi/scripts/launch-rofi.sh";
+        EXIT_CMD = "~/.config/wlogout/scripts/launch-wlogout.sh";
+      };
     };
 
     programs = {

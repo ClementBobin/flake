@@ -1,11 +1,8 @@
 _: { config, lib, pkgs, ... }:
 
 {
-  # Add options for xdg, utilities for managing home and system environment
-  options.xdg.config.enable = lib.mkEnableOption "xdg.config";
-
   # Configure xdg if desired
-  config = lib.mkIf config.xdg.config.enable {
+  config = lib.mkIf config.xdg.enable {
 
     # Configure xdg
     xdg = {

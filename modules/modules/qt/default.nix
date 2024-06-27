@@ -1,14 +1,8 @@
 _: { config, lib, pkgs, ... }:
 
 {
-  # Add options for qt, a gui toolkit
-  options.qt.config.enable = lib.mkEnableOption "qt.config";
-
   # Configure qt if desired
-  config = lib.mkIf config.gtk.config.enable {
-
-    # Enable qt configuration
-    qt.enable = true;
+  config = lib.mkIf config.gtk.enable {
 
     # Set environment variables
     home.sessionVariables = {

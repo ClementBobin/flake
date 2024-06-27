@@ -4,9 +4,6 @@ let
   cfg = config.wayland.windowManager.sway;
 in
 {
-  # Add options for sway window manager
-  options.sway.enable = lib.mkEnableOption "sway";
-
   # Install sway if desired
   config = lib.mkIf config.sway.enable {
 

@@ -1,9 +1,6 @@
 _: { config, lib, pkgs, ... }:
 
 {
-  # Add options for mangohud performance monitor
-  options.mangohud.enable = lib.mkEnableOption "mangohud";
-
   # Install and configure mangohud if desired
   config = lib.mkIf config.mangohud.enable {
 

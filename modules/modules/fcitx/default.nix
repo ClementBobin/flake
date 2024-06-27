@@ -1,9 +1,6 @@
 _: { config, lib, pkgs, ... }:
 
 {
-  # Add options for fcitx, a utility for changing keyboard language
-  options.fcitx.enable = lib.mkEnableOption "fcitx";
-
   # Install fcitx if desired
   config = lib.mkIf config.fcitx.enable (lib.mkMerge [
 

@@ -1,9 +1,6 @@
 _: { config, lib, pkgs, ... }:
 
 {
-  # Add options for waybar, a bar utility for wayland
-  options.waybar.enable = lib.mkEnableOption "waybar";
-
   # Install waybar if desired
   config = lib.mkIf config.waybar.enable (lib.mkMerge [
 

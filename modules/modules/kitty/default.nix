@@ -1,8 +1,6 @@
 _: { config, lib, pkgs, ... }:
 
 {
-  # Add options for kitty terminal emulator
-  options.kitty.enable = lib.mkEnableOption "kitty";
 
   # Install kitty if desired
   config = lib.mkIf config.kitty.enable {

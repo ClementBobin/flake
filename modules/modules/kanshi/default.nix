@@ -1,8 +1,6 @@
 inputs : { config, lib, pkgs, ... }:
 
 {
-  # Add options for kanshi, a service for managing monitors
-  options.kanshi.enable = lib.mkEnableOption "kanshi";
 
   # Enable kanshi if desired
   config = lib.mkIf config.kanshi.enable (lib.mkMerge [

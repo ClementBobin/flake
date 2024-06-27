@@ -52,9 +52,6 @@ _: { config, lib, pkgs, xdg, ... }: let
   )));
 
 in {
-  # Add options for theme configuration
-  options.themes.enable = lib.mkEnableOption "themes";
-
   # Enable theme switching if desired
   config = lib.mkIf config.themes.enable (lib.mkMerge [
 

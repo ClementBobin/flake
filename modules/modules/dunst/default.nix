@@ -1,9 +1,6 @@
 _: { config, lib, pkgs, ... }:
 
 {
-  # Add options for dunst notification system
-  options.dunst.enable = lib.mkEnableOption "dunst";
-
   # Install dunst if desired
   config = lib.mkIf config.dunst.enable (lib.mkMerge [
 

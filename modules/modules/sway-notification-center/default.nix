@@ -1,9 +1,6 @@
 _: { config, pkgs, lib, ... }:
 
 {
-  # Add options for sway-notification-center, a notification manager for wayland
-  options.sway-notification-center.enable = lib.mkEnableOption "sway-notification-center";
-
   # Install sway-notification-center if desired
   config = lib.mkIf (config.sway.enable && config.sway-notification-center.enable) {
 

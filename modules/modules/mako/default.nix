@@ -1,8 +1,6 @@
 _: { config, lib, ... }:
 
 {
-  # Add options for mako notification system
-  options.mako.enable = lib.mkEnableOption "mako";
 
   # Install mako if desired
   config = lib.mkIf config.mako.enable {

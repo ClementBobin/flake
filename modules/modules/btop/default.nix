@@ -2,15 +2,6 @@ _: { config, lib, pkgs, ... }:
 
 with lib;
 {
-  # Add options for btop system monitor
-  options = {
-    btop = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-      };
-    };
-  };
 
   # Configure btop if enabled
   config = mkIf config.btop.enable {

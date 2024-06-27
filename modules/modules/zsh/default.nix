@@ -1,9 +1,6 @@
 _: { config, lib, pkgs, ... }:
 
 {
-  # Add options for zsh shell
-  options.zsh.enable = lib.mkEnableOption "zsh";
-
   # Install and configure zsh if desired
   config = lib.mkIf config.zsh.enable {
 

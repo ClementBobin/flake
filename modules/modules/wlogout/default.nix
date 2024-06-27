@@ -1,9 +1,6 @@
 _: { config, lib, pkgs, ... }:
 
 {
-  # Add options for wlogout menu
-  options.wlogout.enable = lib.mkEnableOption "wlogout";
-
   # Install and configure wlogout if desired
   config = lib.mkIf config.wlogout.enable {
 

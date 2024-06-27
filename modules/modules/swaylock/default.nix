@@ -1,9 +1,6 @@
 _: { config, lib, pkgs, ... }:
 
 {
-  # Add options for swaylock, lock screen for wayland
-  options.swaylock.enable = lib.mkEnableOption "swaylock.config";
-
   # Configure swaylock if desired
   config = lib.mkIf config.swaylock.enable {
 

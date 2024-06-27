@@ -1,9 +1,6 @@
 _: { config, lib, pkgs, ... }:
 
 {
-  # Add options for swayidle, system for handling time-outs
-  options.swayidle.enable = lib.mkEnableOption "swayidle.config";
-
   # Configure swayidle if desired
   config = lib.mkIf config.swayidle.enable {
 
