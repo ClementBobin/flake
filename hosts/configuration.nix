@@ -1,26 +1,26 @@
 #
-#  Main system configuration. More information available in configuration.nix(5) man page.
-#
-#  flake.nix
-#   ├─ ./hosts
-#   │   ├─ default.nix
-#   │   └─ configuration.nix *
-#   └─ ./modules
-#       ├─ ./desktops
-#       │   └─ default.nix
-#       ├─ ./editors
-#       │   └─ default.nix
-#       ├─ ./hardware
-#       │   └─ default.nix
-#       ├─ ./programs
-#       │   └─ default.nix
-#       ├─ ./services
-#       │   └─ default.nix
-#       ├─ ./shell
-#       │   └─ default.nix
-#       └─ ./theming
-#           └─ default.nix
-#
+#  Main system configuration.
+##############################
+#  flake.nix                 #
+#   ├─ ./hosts               #
+#   │   ├─ default.nix       #
+#   │   └─ configuration.nix #
+#   └─ ./modules             #
+#       ├─ ./desktops        #
+#       │   └─ default.nix   #
+#       ├─ ./editors         #
+#       │   └─ default.nix   #
+#       ├─ ./hardware        #
+#       │   └─ default.nix   #
+#       ├─ ./programs        #
+#       │   └─ default.nix   #
+#       ├─ ./services        #
+#       │   └─ default.nix   #
+#       ├─ ./shell           #
+#       │   └─ default.nix   #
+#       └─ ./theming         #
+#           └─ default.nix   #
+##############################
 
 { config, lib, pkgs, stable, inputs, vars, ... }:
 
@@ -33,12 +33,18 @@
               import ../modules/shell ++ 
               import ../modules/theming );
 
-  users.users.${vars.user} = {              # System User
+  ####################
+  # System User      #
+  ####################
+  users.users.${vars.user} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd" "plex" ];
+    extraGroups = [ "wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd" "plex" "vboxusers" "wireshark" ];
   };
 
-  time.timeZone = "Europe/Paris";        # Time zone and Internationalisation
+  ####################
+  # Time and Locale  #
+  ####################
+  time.timeZone = "Europe/Paris";
   i18n = {
     defaultLocale = "en_US.UTF-8";
     extraLocaleSettings = {
@@ -58,80 +64,93 @@
     keyMap = "fr";
   };
 
+  ####################
+  # X Server         #
+  ####################
   services.xserver = {
     layout = "fr";
     xkbVariant = "azerty";
-    xkbOptions = "eurosign:e";
   };
 
+  ####################
+  # Security         #
+  ####################
   security = {
     rtkit.enable = true;
     polkit.enable = true;
   };
 
-    hardware.bluetooth = {
-        enable = true;
-        #hsphfpd.enable = true; # HSP  HFS daemon
-        settings = {
-                General = {
-                        Enable = "Source,Sink,Media,Socket";
-                };
- 
-        };
+  ####################
+  # Hardware         #
+  ####################
+  hardware.bluetooth = {
+    enable = true;
+    settings = {
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+      };
+    };
   };
 
+  ####################
+  # Environment      #
+  ####################
   environment = {
-    variables = {                           # Environment Variables
+    variables = {
       TERMINAL = "${vars.terminal}";
       EDITOR = "${vars.editor}";
       VISUAL = "${vars.editor}";
     };
-    systemPackages = with pkgs; [           # System-Wide Packages
-		# Terminal
-		git # Version Control
-		killall # Process Killer
-		nano # Text Editor
-		nix-tree # Browse Nix Store
-		wget # Retriever
-		tree # View tree 
-    
-    # Video/Audio
-		alsa-utils # Audio Control
-		feh # Image Viewer
-		mpv # Media Player
-		pavucontrol # Audio Control
-		pipewire # Audio Server/Control
-		pulseaudio # Audio Server/Control
-		vlc # Media Player
-		stremio # Media Streamer
+    systemPackages = with pkgs; [
+      git        # Version Control
+      killall    # Process Killer
+      nano       # Text Editor
+      nix-tree   # Browse Nix Store
+      wget       # Retriever
+      tree       # View tree 
+      
+      alsa-utils # Audio Control
+      feh        # Image Viewer
+      mpv        # Media Player
+      pavucontrol# Audio Control
+      pipewire   # Audio Server/Control
+      pulseaudio # Audio Server/Control
+      vlc        # Media Player
+      stremio    # Media Streamer
 		
-		# File Management
-		okular # PDF Viewer
-		p7zip # Zip Encryption
-		unzip # Zip Files
-		unrar # Rar Files
-		zip # Zip
+      okular     # PDF Viewer
+      p7zip      # Zip Encryption
+      unzip      # Zip Files
+      unrar      # Rar Files
+      zip        # Zip
 
-    nmap # network discovery and security auditing
-    yed # diagrams
+      nmap       # Network discovery and security auditing
+      yed        # Diagrams
 
-    kate # editor KDE
-
-		# Other Packages Found @
-		# - ./<host>/default.nix
-		# - ../modules
+      kate       # Editor KDE
+      clamav
     ] ++
     (with stable; [
       # Apps
     ]);
   };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  ####################
+  # Firewall         #
+  ####################
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 80 443 ];
+    allowedUDPPortRanges = [
+      { from = 4000; to = 4007; }
+      { from = 8000; to = 8010; }
+    ];
+    interfaces."eth0".allowedTCPPorts = [ 80 443 ];
+  };
 
+  ####################
+  # System Services  #
+  ####################
   services = {
     printing = {                            # CUPS
       enable = true;
@@ -145,6 +164,15 @@
       };
       pulse.enable = true;
       jack.enable = true;
+      audio.enable = true;
+      wireplumber.enable = true;
+      #lowLatency = {
+        # enable this module
+        #enable = true;
+        # defaults (no need to be set unless modified)
+        #quantum = 64;
+        #rate = 48000;
+      #};
     };
     openssh = {                             # SSH
       enable = true;
@@ -155,19 +183,24 @@
     };
   };
 
-  #xdg.portal.enable = true;
-  #services.flatpak.enable = true;                    # Enable Flatpak (see module options)
+  ####################
+  # Flatpak          #
+  ####################
+  flatpak.enable = true;
 
-  nix = {                                   # Nix Package Manager Settings
+  ####################
+  # Nix Settings     #
+  ####################
+  nix = {
     settings ={
       auto-optimise-store = true;
     };
-    gc = {                                  # Garbage Collection
+    gc = {
       automatic = true;
       dates = "monthly";
       options = "--delete-older-than 7d";
     };
-    package = pkgs.nixVersions.unstable;    # Enable Flakes
+    package = pkgs.nixVersions.unstable;
     registry.nixpkgs.flake = inputs.nixpkgs;
     extraOptions = ''
       experimental-features = nix-command flakes
@@ -175,17 +208,19 @@
       keep-derivations      = true
     '';
   };
-  nixpkgs.config.allowUnfree = true;        # Allow Proprietary Software.
+  nixpkgs.config.allowUnfree = true;
 
-  system = {                                # NixOS Settings
-    #autoUpgrade = {                        # Allow Auto Update (not useful in flakes)
-    #  enable = true;
-    #  channel = "https://nixos.org/channels/nixos-unstable";
-    #};
+  ####################
+  # NixOS Settings   #
+  ####################
+  system = {
     stateVersion = "23.11";
   };
 
-  home-manager.users.${vars.user} = {       # Home-Manager Settings
+  ####################
+  # Home-Manager     #
+  ####################
+  home-manager.users.${vars.user} = {
     home = {
       stateVersion = "23.11";
     };

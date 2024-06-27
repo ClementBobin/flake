@@ -10,6 +10,7 @@ pkgs.mkShell {
     (pkgs.python3.withPackages (ps: [
       ps.pip
       ps.tkinter
+      ps.numpy
     ]))
     python3Packages.python-lsp-server
     poetry # Instead of pip, you can use $ poetry init -n --name <name> and $ poetry add request <package> to install python packages
@@ -20,4 +21,12 @@ pkgs.mkShell {
     export PATH="$PIP_PREFIX/bin:$PATH"
     unset SOURCE_DATE_EPOCH
   '';
+}
+
+buildPythonPackage {
+  # ...
+  propagatedBuildInputs = [
+    # ...
+    setuptools
+  ];
 }

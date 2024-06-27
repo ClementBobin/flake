@@ -1,19 +1,13 @@
-#
-#  Specific system configuration settings for laptop
-#
-#  flake.nix
-#   ├─ ./hosts
-#   │   ├─ default.nix
-#   │   └─ ./laptop
-#   │        ├─ default.nix *
-#   │        └─ hardware-configuration.nix
-#   └─ ./modules
-#       ├─ ./engine
-#       |   └─ ./unity.nix
-#       └─ ./desktops
-#           ├─ bspwm.nix
-#           └─ ./virtualisation
-#
+  # Specific system configuration settings for club
+
+  ##########################################
+  # flake.nix                              #
+  # ├─ ./hosts                             #
+  # │   ├─ default.nix                     #
+  # │   └─ ./club                          #
+  # │        ├─ default.nix                #
+  # │        └─ hardware-configuration.nix #
+  ##########################################
 
 { config, lib, pkgs, stable, inputs, vars, ... }:
 
@@ -22,12 +16,15 @@
     ./hardware-configuration.nix
   ];
 
-  users.users.${vars.user} = {              # System User
+  ####################
+  # System           #
+  ####################
+  users.users.${vars.user} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd" "plex" ];
   };
 
-  time.timeZone = "Europe/Paris";        # Time zone and Internationalisation
+  time.timeZone = "Europe/Paris";
   i18n = {
     defaultLocale = "en_US.UTF-8";
     extraLocaleSettings = {
@@ -47,18 +44,18 @@
     keyMap = "fr";
   };
 
-  services.xserver = {
-    layout = "fr";
-    xkbVariant = "azerty";
-    xkbOptions = "eurosign:e";
-  };
-
+  #####################
+  # Security Settings #
+  #####################
   security = {
     rtkit.enable = true;
     polkit.enable = true;
   };
 
-  boot = {                                  # Boot Options
+  ####################
+  # Boot Options     #
+  ####################
+  boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     loader = {
         grub = {
@@ -71,16 +68,23 @@
     };
   };
 
-  hardware.sane = {                         # Scanning
+  ####################
+  # Scanning         #
+  ####################
+  hardware.sane = {
     enable = true;
     extraBackends = [ pkgs.sane-airscan ];
   };
 
-  networking.networkmanager.enable = true; # network
+  ####################
+  # Network          #
+  ####################
+  networking.networkmanager.enable = true;
 
-  # club.enable = true;                     # Club Modules
-  # services.xserver.windowManager.bspwm.enable = true;                      # Window Manager
-  services.xserver = {                        # graphique
+  #######################
+  # Graphical Interface #
+  #######################
+  services.xserver = {
     enable = true;
     displayManager = {
       sddm.enable = true;
@@ -89,21 +93,24 @@
     windowManager.qtile.enable = true;
   };
 
+  #########################
+  # Environment Variables #
+  #########################
   environment = {
-    variables = {                           # Environment Variables
+    variables = {
       TERMINAL = "${vars.terminal}";
       EDITOR = "${vars.editor}";
       VISUAL = "${vars.editor}";
     };
-    systemPackages = with pkgs; [           # System-Wide Packages
+    systemPackages = with pkgs; [
       # Terminal
       git # Version Control
       killall # Process Killer
       nano # Text Editor
       nix-tree # Browse Nix Store
       wget # Retriever
-      tree # View tree 
-      
+      tree # View tree
+
       # Video/Audio
       alsa-utils # Audio Control
       feh # Image Viewer
@@ -113,7 +120,7 @@
       pulseaudio # Audio Server/Control
       vlc # Media Player
       stremio # Media Streamer
-      
+
       # File Management
       okular # PDF Viewer
       p7zip # Zip Encryption
@@ -121,20 +128,20 @@
       unrar # Rar Files
       zip # Zip
 
-      nmap # network discovery and security auditing
-      yed # diagrams
+      nmap # Network discovery and security auditing
+      yed # Diagrams
 
-      kate # editor KDE
+      kate # Editor KDE
       simple-scan # Scanning
       onlyoffice-bin # Office
       docker
       vscode
 
-      # windows compatibility
-      wine            # wine
+      # Windows compatibility
+      wine            # Wine
       winetrick
 
-      # teams
+      # Teams
       teams-for-linux
     ] ++
     (with stable; [
@@ -142,12 +149,15 @@
     ]);
   };
 
+  ####################
+  # System Services  #
+  ####################
   services = {
-    printing = {                            # CUPS
+    printing = {
       enable = true;
       drivers = [ pkgs.cnijfilter2 ];
     };
-    pipewire = {                            # Sound
+    pipewire = {
       enable = true;
       alsa = {
         enable = true;
@@ -156,25 +166,28 @@
       pulse.enable = true;
       jack.enable = true;
     };
-    openssh = {                             # SSH
+    openssh = {
       enable = true;
-      allowSFTP = true;                     # SFTP
+      allowSFTP = true;
       extraConfig = ''
         HostKeyAlgorithms +ssh-rsa
       '';
     };
   };
 
-  nix = {                                   # Nix Package Manager Settings
+  ################
+  # Nix Settings #
+  ################
+  nix = {
     settings ={
       auto-optimise-store = true;
     };
-    gc = {                                  # Garbage Collection
+    gc = {
       automatic = true;
       dates = "monthly";
       options = "--delete-older-than 7d";
     };
-    package = pkgs.nixVersions.unstable;    # Enable Flakes
+    package = pkgs.nixVersions.unstable;
     registry.nixpkgs.flake = inputs.nixpkgs;
     extraOptions = ''
       experimental-features = nix-command flakes
@@ -182,17 +195,19 @@
       keep-derivations      = true
     '';
   };
-  nixpkgs.config.allowUnfree = true;        # Allow Proprietary Software.
+  nixpkgs.config.allowUnfree = true;
 
-  system = {                                # NixOS Settings
-    #autoUpgrade = {                        # Allow Auto Update (not useful in flakes)
-    #  enable = true;
-    #  channel = "https://nixos.org/channels/nixos-unstable";
-    #};
+  ####################
+  # NixOS Settings   #
+  ####################
+  system = {
     stateVersion = "23.11";
   };
 
-  home-manager.users.${vars.user} = {       # Home-Manager Settings
+  #########################
+  # Home-Manager Settings #
+  #########################
+  home-manager.users.${vars.user} = {
     home = {
       stateVersion = "23.11";
     };

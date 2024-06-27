@@ -22,6 +22,7 @@
   ./environment/nodejs.nix
   ./environment/python.nix
   ./environment/wine.nix
+  #./environment/php.nix
   ./documentation/obsidian.nix
   #./communication/discord.nix
   ./communication/teams.nix

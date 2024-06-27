@@ -2,12 +2,12 @@
 #  These are the different profiles that can be used when building NixOS.
 #
 #  flake.nix 
-#   └─ ./hosts  
-#       ├─ default.nix *
-#       ├─ configuration.nix
-#       └─ ./<host>.nix
-#           └─ default.nix 
-#
+#   └─ ./hosts        
+#       ├─ default.nix       #
+#       ├─ configuration.nix #
+#       └─ ./<host>.nix      #
+#           └─ default.nix   #
+##############################
 
 { lib, inputs, nixpkgs, nixpkgs-stable, home-manager, nur, doom-emacs, hyprland, plasma-manager, vars, ... }:
 
@@ -27,7 +27,10 @@ let
   lib = nixpkgs.lib;
 in
 {
-  beelink = lib.nixosSystem {                               # Desktop Profile
+  #################################
+  # DEPRECATED Server Profile     #
+  #################################
+  beelink = lib.nixosSystem {                               
     inherit system;
     specialArgs = {                                         # Pass Flake Variable
       inherit inputs system stable hyprland vars;
@@ -49,14 +52,17 @@ in
     ];
   };
 
-  laptop = lib.nixosSystem {                                # Laptop Profile
+  #################################
+  # Laptop Profile                #
+  #################################
+  laptop = lib.nixosSystem {                                
     inherit system;
     specialArgs = {
       inherit inputs stable vars;
       host = {
         hostName = "laptop";
         mainMonitor = "eDP-1";
-        secondMonitor = "";
+        secondMonitor = "DP-2";
       };
     };
     modules = [
@@ -70,7 +76,10 @@ in
     ];
   };
 
-  work = lib.nixosSystem {                                  # Work Profile
+  #################################
+  # Work Profile                  #
+  #################################
+  work = lib.nixosSystem {                                  
     inherit system;
     specialArgs = {
       inherit inputs system stable hyprland vars;
@@ -92,7 +101,10 @@ in
     ];
   };
 
-  vm = lib.nixosSystem {                                    # VM Profile
+  #################################
+  # VM Profile                    #
+  #################################
+  vm = lib.nixosSystem {                                    
     inherit system;
     specialArgs = {
       inherit inputs stable vars;
@@ -113,7 +125,10 @@ in
     ];
   };
 
-  desktop = lib.nixosSystem {                               # DEPRECATED Desktop Profile 
+  #################################
+  # DEPRECATED Desktop Profile    #
+  #################################
+  desktop = lib.nixosSystem {                               
     inherit system;
     specialArgs = {
       inherit inputs system stable hyprland vars;

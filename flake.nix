@@ -1,12 +1,12 @@
-#
-#  flake.nix *
-#   ├─ ./hosts
-#   │   └─ default.nix
-#   ├─ ./darwin
-#   │   └─ default.nix
-#   └─ ./nix
-#       └─ default.nix
-#
+########################
+#  flake.nix           #
+#   ├─ ./hosts         #
+#   │   └─ default.nix #
+#   ├─ ./darwin        #
+#   │   └─ default.nix #
+#   └─ ./nix           #
+#       └─ default.nix #
+########################
 
 {
   description = "Nix, NixOS and Nix Darwin System Flake Configuration";
@@ -14,7 +14,8 @@
   inputs =                                                                  # References Used by Flake
     {
       nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";                  # Unstable Nix Packages (Default)
-      nixpkgs-stable.url = "github:nixos/nixpkgs/release-23.11";            # Stable Nix Packages
+      nixpkgs-stable.url = "github:nixos/nixpkgs/release-23.11";
+      nix-gaming.url = "github:fufexan/nix-gaming";            # Stable Nix Packages
 
       home-manager = {                                                      # User Environment Manager
         url = "github:nix-community/home-manager";
@@ -58,7 +59,7 @@
       };
     };
 
-  outputs = inputs @ { self, nixpkgs, nixpkgs-stable, home-manager, darwin, nur, nixgl, doom-emacs, hyprland, plasma-manager, ... }:   # Function telling flake which inputs to use
+  outputs = inputs @ { self, nixpkgs, nixpkgs-stable, home-manager, darwin, nur, nixgl, doom-emacs, hyprland, plasma-manager, nix-gaming, ... }:   # Function telling flake which inputs to use
     let
       vars = {                                                              # Variables Used In Flake
         user = "mirage";
@@ -68,10 +69,11 @@
       };
     in
     {
-      nixosConfigurations = (                                               # NixOS Configurations
+
+      nixosConfigurations = (                                             # NixOS Configurations
         import ./hosts {
           inherit (nixpkgs) lib;
-          inherit inputs nixpkgs nixpkgs-stable home-manager nur doom-emacs hyprland plasma-manager vars;   # Inherit inputs
+          inherit inputs nixpkgs nixpkgs-stable home-manager nur doom-emacs hyprland plasma-manager nix-gaming vars;   # Inherit inputs
         }
       );
 

@@ -1,21 +1,21 @@
 #
 #  Specific system configuration settings for work
-#
-#  flake.nix
-#   ├─ ./hosts
-#   │   ├─ default.nix
-#   │   └─ ./work
-#   │        ├─ default.nix *
-#   │        └─ hardware-configuration.nix
-#   └─ ./modules
-#       ├─ ./desktops
-#       │   ├─ hyprland.nix
-#       │   └─ ./virtualisation
-#       │       └─ default.nix
-#       └─ ./hardware
-#           └─ ./work
-#               └─ default.nix
-#
+############################################
+#  flake.nix                               #
+#   ├─ ./hosts                             #
+#   │   ├─ default.nix                     #
+#   │   └─ ./work                          #
+#   │        ├─ default.nix                #
+#   │        └─ hardware-configuration.nix #
+#   └─ ./modules                           #
+#       ├─ ./desktops                      #
+#       │   ├─ hyprland.nix                #
+#       │   └─ ./virtualisation            #
+#       │       └─ default.nix             #
+#       └─ ./hardware                      #
+#           └─ ./work                      #
+#               └─ default.nix             #
+############################################
 
 { pkgs, vars, ... }:
 
@@ -24,7 +24,10 @@
             ( import ../../modules/desktops/virtualisation ) ++
             ( import ../../modules/hardware );
 
-  boot = {                                      # Boot Options
+  ####################
+  # Boot Options     #
+  ####################
+  boot = {
     loader = {
       efi = {
         canTouchEfiVariables = true;
@@ -43,9 +46,15 @@
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
-  laptop.enable = true;                         # Laptop modules
-  hyprland.enable = true;                       # Window manager
+  ####################
+  # Laptop Modules   #
+  ####################
+  laptop.enable = true;
+  hyprland.enable = true;
 
+  ####################
+  # Hardware         #
+  ####################
   hardware = {
     opengl = {                                  # Hardware Accelerated Video
       enable = true;
@@ -62,6 +71,9 @@
     };
   };
 
+  ####################
+  # Environment      #
+  ####################
   environment = {
     systemPackages = with pkgs; [               # System Wide Packages
       ansible           # Automation
@@ -75,13 +87,22 @@
     ];
   };
 
+  ####################
+  # Programs         #
+  ####################
   programs.light.enable = true;                 # Monitor Brightness
 
+  ####################
+  # Flatpak Packages #
+  ####################
   flatpak = {                                   # Flatpak Packages (see module options)
     extraPackages = [
       "com.github.tchx84.Flatseal"
     ];
   };
 
+  ####################
+  # Systemd Services #
+  ####################
   systemd.services.NetworkManager-wait-online.enable = false;
 }

@@ -3,7 +3,7 @@
 #  Do not forget to enable Steam play for all title in the settings menu
 #
 
-{ config, pkgs, nur, lib, stable, ... }:
+{ config, pkgs, nur, lib, stable, inputs, ... }:
 
 {
   #hardware.new-lg4ff.enable = true;            # Force Feedback
@@ -15,13 +15,19 @@
     stable.playonlinux
     stable.protonup-qt
     stable.protontricks
-    stable.minecraft
+    stable.prismlauncher
+    inputs.nix-gaming.packages.${pkgs.system}.star-citizen
+    #inputs.nix-gaming.packages.${pkgs.system}.northstar-proton
+    #inputs.nix-gaming.packages.${pkgs.system}.viper
+    #inputs.nix-gaming.packages.${pkgs.system}.roblox-player
+    #inputs.nix-gaming.packages.${pkgs.system}.rocket-league
   ];
 
   programs = {
     steam = {
       enable = true;
       remotePlay.openFirewall = true;
+      #platformOptimizations.enable = true;
     };
     gamemode.enable = true;                     # Better Gaming Performance
                                                 # Steam: Right-click game - Properties - Launch options: gamemoderun %command%

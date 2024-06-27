@@ -1,16 +1,16 @@
 #
 #  Specific system configuration settings for vm
-#
-#  flake.nix
-#   ├─ ./hosts
-#   │   ├─ default.nix
-#   │   └─ ./vm
-#   │       ├─ default.nix *
-#   │       └─ hardware-configuration.nix
-#   └─ ./modules
-#       └─ ./desktops
-#           └─ bspwm.nix
-#
+###########################################
+#  flake.nix                              #
+#   ├─ ./hosts                            #
+#   │   ├─ default.nix                    #
+#   │   └─ ./vm                           #
+#   │       ├─ default.nix                #
+#   │       └─ hardware-configuration.nix #
+#   └─ ./modules                          #
+#       └─ ./desktops                     #
+#           └─ bspwm.nix                  #
+###########################################
 
 { config, pkgs, vars, ... }:
 
@@ -19,7 +19,10 @@
     ./hardware-configuration.nix
   ];
 
-  boot = {                                      # Boot Options
+  ####################
+  # Boot Options     #
+  ####################
+  boot = {
     loader = {
       grub = {
         enable = true;
@@ -30,14 +33,23 @@
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
-  bspwm.enable = true;                          # Window Manager
+  ####################
+  # Window Manager   #
+  ####################
+  bspwm.enable = true;
 
+  ####################
+  # Environment      #
+  ####################
   environment = {
     systemPackages = with pkgs; [               # System Wide Packages
       hello             # Test Package
     ];
   };
 
+  ####################
+  # X Server         #
+  ####################
   services = {
     xserver = {                                 
       resolutions = [
