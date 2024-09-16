@@ -1,14 +1,31 @@
-#
-#  Hotkey Daemon
-#
-
 { config, lib, pkgs, vars, ... }:
 
 {
-  config = lib.mkIf (config.x11wm.enable) {
-    home-manager.users.${vars.user} = {
-      services = {
-        sxhkd = {
+  # Add options for x11wm
+  options = {
+    x11wm.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        Enable x11wm (hotkey daemon and window manager settings).
+      '';
+    };
+
+    x11wm.installMethod = lib.mkOption {
+      type = lib.types.enum [ "home-manager" "environment" ];
+      default = "home-manager";
+      description = ''
+        Choose whether to install x11wm tools via home-manager or directly in the environment.
+      '';
+    };
+  };
+
+  config = lib.mkIf config.x11wm.enable (lib.mkMerge [
+
+    # Install x11wm tools if desired
+    (lib.mkIf (config.x11wm.installMethod == "home-manager") {
+      home-manager.users.${vars.user} = {
+        services.sxhkd = {
           enable = true;
           keybindings = {
             # Apps
@@ -51,6 +68,16 @@
           };
         };
       };
-    };
-  };
+    })
+
+    (lib.mkIf (config.x11wm.installMethod == "environment") {
+      environment.systemPackages = with pkgs; [
+        sxhkd
+      ];
+
+      # Configuration for sxhkd may need to be handled manually or through another mechanism
+      # You can place sxhkd configuration files in the appropriate location if needed
+    })
+
+  ]);
 }

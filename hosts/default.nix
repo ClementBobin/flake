@@ -1,14 +1,3 @@
-#
-#  These are the different profiles that can be used when building NixOS.
-#
-#  flake.nix 
-#   └─ ./hosts        
-#       ├─ default.nix       #
-#       ├─ configuration.nix #
-#       └─ ./<host>.nix      #
-#           └─ default.nix   #
-##############################
-
 { lib, inputs, nixpkgs, nixpkgs-stable, home-manager, nur, doom-emacs, hyprland, plasma-manager, vars, ... }:
 
 let
@@ -28,31 +17,6 @@ let
 in
 {
   #################################
-  # DEPRECATED Server Profile     #
-  #################################
-  beelink = lib.nixosSystem {                               
-    inherit system;
-    specialArgs = {                                         # Pass Flake Variable
-      inherit inputs system stable hyprland vars;
-      host = {
-        hostName = "beelink";
-        mainMonitor = "HDMI-A-2";
-        secondMonitor = "HDMI-A-1";
-      };
-    };
-    modules = [                                             # Modules Used
-      nur.nixosModules.nur
-      ./beelink
-      ./configuration.nix
-
-      home-manager.nixosModules.home-manager {              # Home-Manager Module
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-      }
-    ];
-  };
-
-  #################################
   # Laptop Profile                #
   #################################
   laptop = lib.nixosSystem {                                
@@ -61,86 +25,10 @@ in
       inherit inputs stable vars;
       host = {
         hostName = "laptop";
-        mainMonitor = "eDP-1";
-        secondMonitor = "DP-2";
       };
     };
     modules = [
       ./laptop
-      ./configuration.nix
-
-      home-manager.nixosModules.home-manager {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-      }
-    ];
-  };
-
-  #################################
-  # Work Profile                  #
-  #################################
-  work = lib.nixosSystem {                                  
-    inherit system;
-    specialArgs = {
-      inherit inputs system stable hyprland vars;
-      host = {
-        hostName = "work";
-        mainMonitor = "eDP-1";
-        secondMonitor = "HDMI-A-2";
-        thirdMonitor = "DP-1";
-      };
-    };
-    modules = [
-      ./work
-      ./configuration.nix
-
-      home-manager.nixosModules.home-manager {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-      }
-    ];
-  };
-
-  #################################
-  # VM Profile                    #
-  #################################
-  vm = lib.nixosSystem {                                    
-    inherit system;
-    specialArgs = {
-      inherit inputs stable vars;
-      host = {
-        hostName = "vm";
-        mainMonitor = "Virtual-1";
-        secondMonitor = "";
-      };
-    };
-    modules = [
-      ./vm
-      ./configuration.nix
-
-      home-manager.nixosModules.home-manager {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-      }
-    ];
-  };
-
-  #################################
-  # DEPRECATED Desktop Profile    #
-  #################################
-  desktop = lib.nixosSystem {                               
-    inherit system;
-    specialArgs = {
-      inherit inputs system stable hyprland vars;
-      host = {
-        hostName = "desktop";
-        mainMonitor = "HDMI-A-1";
-        secondMonitor = "HDMI-A-2";
-      };
-    };
-    modules = [
-      nur.nixosModules.nur
-      ./desktop
       ./configuration.nix
 
       home-manager.nixosModules.home-manager {

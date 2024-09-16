@@ -1,0 +1,75 @@
+{ config, lib, pkgs, vars, ... }:
+
+{
+  # Add options for wlogout
+  options = {
+    wlogout.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        Enable wlogout      '';
+    }; 
+  };
+
+  # Install and configure wlogout if desired
+  config = lib.mkIf config.wlogout.enable {
+    home-manager.users.${vars.user} = {
+      # Configure wlogout
+      programs.wlogout = {
+
+        # Enable wlogout
+        enable = true;
+
+        # Add styling
+        style = ./style.css;
+
+        # Configuration
+        layout = [
+          {
+            label = "lock";
+            action = "swaylock";
+            text = "Lock";
+            keybind = "l";
+          }
+          {
+            label = "logout";
+            action = "hyprctl dispatch exit 0";
+            text = "Logout";
+            keybind = "e";
+          }
+          {
+            label = "suspend";
+            action = "swaylock && systemctl suspend";
+            text = "Suspend";
+            keybind = "u";
+          }
+          {
+            label = "shutdown";
+            action = "systemctl poweroff";
+            text = "Shutdown";
+            keybind = "s";
+          }
+          {
+            label = "hibernate";
+            action = "systemctl hibernate";
+            text = "Hibernate";
+            keybind = "h";
+          }
+          {
+            label = "reboot";
+            action = "systemctl reboot";
+            text = "Reboot";
+            keybind = "r";
+          }
+        ];
+      };
+
+      # Additional styling rofi
+      xdg.configFile."wlogout/extra-style.css".text = '''';
+
+      # Copy scripts and icons
+      xdg.configFile."wlogout/scripts".source = ./scripts;
+      xdg.configFile."wlogout/icons".source = ./icons;
+    };
+  };
+}

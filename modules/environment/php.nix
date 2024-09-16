@@ -1,0 +1,96 @@
+{ config, pkgs, vars, lib, ... }:
+
+{
+  # Add options for PHP
+  options = {
+    php.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        Enable PHP.
+      '';
+    };
+
+    php.installMethod = lib.mkOption {
+      type = lib.types.enum [ "home-manager" "environment" ];
+      default = "home-manager";
+      description = ''
+        Choose whether to install PHP via home-manager or directly in the environment.
+      '';
+    };
+  };
+
+  # Install PHP if desired
+  config = lib.mkIf config.php.enable (lib.mkMerge [
+
+    # PHP config for home-manager
+    (lib.mkIf (config.php.installMethod == "home-manager") {
+      home-manager.users.${vars.user} = {
+        # Configure PHP packages
+        home.packages = with pkgs; [
+          php83Extensions.xdebug
+          php83Extensions.sqlsrv
+          php83
+          php83Packages.composer
+        ];
+      };
+    })
+
+    # PHP config for environment
+    (lib.mkIf (config.php.installMethod == "environment") {
+      environment.systemPackages = with pkgs; [
+        php83
+        php83Extensions.xdebug
+        php83Extensions.sqlsrv
+        php83Packages.composer
+      ];
+
+      # Optionally, configure HTTPD with PHP support
+      services.httpd.phpPackage = pkgs.php.buildEnv {
+        extensions = ({ enabled, all }: enabled ++ (with all; [
+          xdebug
+          sqlsrv
+          pdo_sqlsrv
+        ]));
+        extraConfig = ''
+          [PHP]
+          [Syslog]
+          define_syslog_variables=Off
+          [Session]
+          define_syslog_variables=Off
+          [Date]
+          date.timezone=Europe/Berlin
+          [MySQL]
+          mysql.allow_local_infile=On
+          mysql.allow_persistent=On
+          mysql.cache_size=2000
+          mysql.max_persistent=-1
+          mysql.max_link=-1
+          mysql.default_port=3306
+          mysql.default_socket="MySQL"
+          mysql.connect_timeout=3
+          mysql.trace_mode=Off
+          [Sybase-CT]
+          sybct.allow_persistent=On
+          sybct.max_persistent=-1
+          sybct.max_links=-1
+          sybct.min_server_severity=10
+          sybct.min_client_severity=10
+          [MSSQL]
+          mssql.allow_persistent=On
+          mssql.max_persistent=-1
+          mssql.max_links=-1
+          mssql.min_error_severity=10
+          mssql.min_message_severity=10
+          mssql.compatibility_mode=Off
+          mssql.secure_connection=Off
+          zend_extension=xdebug
+          xdebug.mode=debug
+          xdebug.start_with_request=yes
+          extension=sqlsrv
+          extension=pdo_sqlsrv
+        '';
+      };
+    })
+  ]);
+}

@@ -25,13 +25,7 @@
 { config, lib, pkgs, stable, inputs, vars, ... }:
 
 {
-  imports = ( import ../modules/desktops ++
-              import ../modules/editors ++
-              import ../modules/hardware ++
-              import ../modules/programs ++
-              import ../modules/services ++
-              import ../modules/shell ++ 
-              import ../modules/theming );
+  imports = ( import ./declaration.nix );
 
   ####################
   # System User      #
@@ -67,9 +61,9 @@
   ####################
   # X Server         #
   ####################
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "fr";
-    xkbVariant = "azerty";
+    variant = "azerty";
   };
 
   ####################
@@ -91,6 +85,8 @@
       };
     };
   };
+  
+  hardware.pulseaudio.enable = false;
 
   ####################
   # Environment      #
@@ -102,10 +98,10 @@
       VISUAL = "${vars.editor}";
     };
     systemPackages = with pkgs; [
-      git        # Version Control
-      killall    # Process Killer
-      nano       # Text Editor
-      nix-tree   # Browse Nix Store
+      git         # Version Control
+      killall     # Process Killer
+      nano        # Text Editor
+      nix-tree    # Browse Nix Store
       wget       # Retriever
       tree       # View tree 
       
@@ -114,7 +110,7 @@
       mpv        # Media Player
       pavucontrol# Audio Control
       pipewire   # Audio Server/Control
-      pulseaudio # Audio Server/Control
+      #pulseaudio # Audio Server/Control
       vlc        # Media Player
       stremio    # Media Streamer
 		
@@ -128,7 +124,11 @@
       yed        # Diagrams
 
       kate       # Editor KDE
-      clamav
+
+      simple-scan
+      onlyoffice-bin
+
+      openssl_3_3
     ] ++
     (with stable; [
       # Apps
@@ -166,13 +166,6 @@
       jack.enable = true;
       audio.enable = true;
       wireplumber.enable = true;
-      #lowLatency = {
-        # enable this module
-        #enable = true;
-        # defaults (no need to be set unless modified)
-        #quantum = 64;
-        #rate = 48000;
-      #};
     };
     openssh = {                             # SSH
       enable = true;
@@ -186,7 +179,12 @@
   ####################
   # Flatpak          #
   ####################
-  flatpak.enable = true;
+  #flatpak = {
+    #enable = true;
+    #extraPackages = [
+      #"com.github.tchx84.Flatseal"
+    #];
+  #};
 
   ####################
   # Nix Settings     #
@@ -200,7 +198,7 @@
       dates = "monthly";
       options = "--delete-older-than 7d";
     };
-    package = pkgs.nixVersions.unstable;
+    package = pkgs.nixVersions.latest;
     registry.nixpkgs.flake = inputs.nixpkgs;
     extraOptions = ''
       experimental-features = nix-command flakes
@@ -214,7 +212,7 @@
   # NixOS Settings   #
   ####################
   system = {
-    stateVersion = "23.11";
+    stateVersion = "24.11";
   };
 
   ####################
@@ -222,15 +220,7 @@
   ####################
   home-manager.users.${vars.user} = {
     home = {
-      stateVersion = "23.11";
-
-      # Set environment variables
-      sessionVariables = {
-
-        # Programs to use
-        MENU_CMD = "~/.config/rofi/scripts/launch-rofi.sh";
-        EXIT_CMD = "~/.config/wlogout/scripts/launch-wlogout.sh";
-      };
+      stateVersion = "24.11";
     };
 
     programs = {
