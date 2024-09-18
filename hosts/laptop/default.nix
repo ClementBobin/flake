@@ -10,12 +10,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.device = "nodev";
-  boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
-
-  hardware.sane = {
-    enable = true;
-    extraBackends = [ pkgs.sane-airscan ];
-  };
 
   networking.networkmanager.enable = true;
 
@@ -23,7 +17,7 @@
     xserver = {
       videoDrivers = ["amdgpu" "nvidia"];
       enable = true;
-      desktopManager.plasma6.enable = true;
+      desktopManager.gnome.enable = true;
       windowManager.qtile.enable = true;
     };
     displayManager = {
@@ -106,7 +100,7 @@
 
   laptop.enable = true;
   #x11wm.enable = true;
-  #themes.enable = true;
+  themes.enable = true;
 
   brave.enable = true;
   btop.enable = true;
@@ -131,8 +125,8 @@
   git.enable = true;
   gitkraken.enable = true;
   google-chrome.enable = true;
-  #gtk.enable = true;
-  #hyprland.enable = true;
+  gtk.enable = true;
+  hyprland.enable = true;
   kitty.enable = true;
   #mangohud.enable = true;
   mpv.enable = true;
@@ -143,7 +137,7 @@
   obsidian.enable = true;
   parsec.enable = true;
   #qt.config.enable = true;
-  #rofi.enable = true;
+  rofi.enable = true;
   security.enable = true;
   spotify.enable = true;
   starship.enable = true;
@@ -151,8 +145,8 @@
   teams-for-linux.enable = true;
   #unity.enable = true; # failed
   vs-code.enable = true;
-  #waybar.enable = true;
-  #wlogout.enable = true;
-  #xdg.config.enable = true;
+  waybar.enable = true;
+  wlogout.enable = true;
+  xdg.config.enable = true;
   zsh.enable = true; 
 }

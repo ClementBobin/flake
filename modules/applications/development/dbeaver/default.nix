@@ -25,7 +25,7 @@
     home-manager.users.${vars.user} = lib.optionalAttrs (config.dbeaver.installMethod == "home-manager") {
       home.packages = with pkgs; [
         dbeaver-bin
-        azuredatastudio
+        #azuredatastudio
       ];
     };
   };
