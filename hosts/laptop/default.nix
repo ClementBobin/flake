@@ -1,10 +1,11 @@
-{ config, pkgs, lib, stable, self, ... }:
+{ config, pkgs, stable, lib, self, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
-    #<nixos-hardware/asus/fa507nv>
-    ../../hardware/asus/A15
+    <nixos-hardware/asus/fa507nv>
+    #<nixos-hardware/common/gpu/amd>
+    #../../hardware/asus/A15
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -15,7 +16,7 @@
 
   services = {
     xserver = {
-      videoDrivers = ["amdgpu" "nvidia"];
+      videoDrivers = ["nvidia" "modesetting"];
       enable = true;
       desktopManager.gnome.enable = true;
       windowManager.qtile.enable = true;
@@ -26,26 +27,23 @@
     };
   };
 
-  programs.kdeconnect.enable = true;
+  hardware.graphics = {
+    enable = lib.mkDefault true;
+    enable32Bit = lib.mkDefault true;
+  };
 
   environment.systemPackages = with pkgs; [    
     asusctl
-    bluemail
-  ] ++ (with stable; [
+    #bluemail
     #rnix-lsp
     unityhub
 
     # download youtube video
-    youtube-dl
-
-    # Fuzzy file finding
-    fzf
-
-    # Cheat sheets
-    navi
+    #youtube-dl
 
     libglvnd
     libGL
+    clinfo  # Optional, to verify OpenCL setup
     #libEGL
     #libEGLnvidia-settings
 
@@ -56,42 +54,45 @@
       export __VK_LAYER_NV_optimus=NVIDIA_only
       exec "$0"
     '')
+  ] ++ (with stable; [
+    # Fuzzy file finding
+    fzf
+
+    # Cheat sheets
+    navi
+    lshw
+    home-manager
+    neofetch
   ]);
 
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages = with pkgs; [
-      libvdpau-va-gl
-      vaapiVdpau 
-      nvidia-vaapi-driver
-    ];
-    extraPackages32 = with pkgs.pkgsi686Linux; [nvidia-vaapi-driver];
+  hardware.nvidia = {
+    modesetting.enable = true;
+    prime = {
+      #offload.enable = true;
+      allowExternalGpu = false;  # Enable if using an external GPU.
+    };
+    #powerManagement.finegrained = true;
+  };
+
+  # head /sys/class/drm/*/status
+  boot.kernelParams = [
+    "video=HDMI-A-1:1920x1080@60"
+  ];
+
+  # hardware.enableAllFirmware = true;
+
+  programs = {
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+      #platformOptimizations.enable = true;
+    };
+    gamemode.enable = true; 
   };
 
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-  };
- 
-  # hint electron apps to use wayland
-  #environment.sessionVariables = {
-    #NIXOS_OZONE_WL = "1";
-  #};
- 
-  # screen sharing
-  #services.dbus.enable = true;
-  #xdg.portal = {
-    #enable = true;
-    #wlr.enable = true;
-    #extraPortals = [
-      #pkgs.xdg-desktop-portal-gtk
-    #];
-  #};
-
-  nix.settings = {
-    substituters = ["https://nix-gaming.cachix.org"];
-    trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
   };
 
   ##################

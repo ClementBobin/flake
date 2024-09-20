@@ -35,15 +35,15 @@
         # hardware.new-lg4ff.enable = true;
 
         home.packages = with pkgs; [
-          stable.heroic         # Game Launcher
-          stable.lutris         # Game Launcher
-          stable.steam          # Game Launcher
-          stable.playonlinux
-          stable.protonup-qt
-          stable.protontricks
+          heroic         # Game Launcher
+          lutris         # Game Launcher
+          steam          # Game Launcher
+          stable.playonlinux # break (unstable) cause wxpy-4.2.1 not suported for py3.12
+          protonup-qt
+          protontricks
           stable.prismlauncher
           inputs.nix-gaming.packages.${pkgs.system}.star-citizen
-          stable.vulkan-tools
+          vulkan-tools
           # Uncomment as needed:
           # inputs.nix-gaming.packages.${pkgs.system}.northstar-proton
           # inputs.nix-gaming.packages.${pkgs.system}.viper
@@ -51,14 +51,14 @@
           # inputs.nix-gaming.packages.${pkgs.system}.rocket-league
         ];
 
-        # Steam configuration
-        #programs.steam = {
-          #enable = true;
-          #remotePlay.openFirewall = true;
-          # Uncomment to enable platform optimizations
-          # platformOptimizations.enable = true;
-          #dedicatedServer.openFirewall = true;
-        #};
+        # # Steam configuration
+        # programs.steam = {
+        #   enable = true;
+        #   remotePlay.openFirewall = true;
+        #   # Uncomment to enable platform optimizations
+        #   platformOptimizations.enable = true;
+        #   dedicatedServer.openFirewall = true;
+        # };
 
         # GameMode for better performance
         #programs.gamemode.enable = true;          # Better Gaming Performance
@@ -67,9 +67,9 @@
                                                   #       
         
         # Environment variables for GameMode
-        #home.sessionVariables = {
-          #LD_PRELOAD = "${pkgs.gamemode}/lib/libgamemodeauto.so";
-        #};
+        home.sessionVariables = {
+          LD_PRELOAD = "${pkgs.gamemode}/lib/libgamemodeauto.so";
+        };
       };
     })
 
@@ -79,6 +79,7 @@
         stable.heroic
         stable.lutris
         stable.steam
+        (steam.override { usePrimus = true; })
         stable.playonlinux
         stable.protonup-qt
         stable.protontricks
@@ -92,8 +93,23 @@
         # inputs.nix-gaming.packages.${pkgs.system}.rocket-league
       ];
 
+
+      programs = {
+        steam = {
+          enable = true;
+          remotePlay.openFirewall = true;
+          #platformOptimizations.enable = true;
+        };
+        gamemode.enable = true; 
+      };
+
       # Ensure Steam and other unfree packages are allowed
       nixpkgs.config.allowUnfree = true;
+      nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+        "steam"
+        "steam-original"
+        "steam-runtime"
+      ]; 
     })
 
     # Allow unfree packages for Steam
