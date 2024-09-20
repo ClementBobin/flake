@@ -28,9 +28,9 @@
       home-manager.users.${vars.user} = {
         # Configure Python packages
         home.packages = with pkgs; [
-          python3
-          python3Packages.pip
-          python3Packages.numpy
+          python311
+          python311Packages.pip
+          python311Packages.numpy
         ];
       };
     })
@@ -38,9 +38,9 @@
     # Python config for environment
     (lib.mkIf (config.python.installMethod == "environment") {
       environment.systemPackages = with pkgs; [
-        python3
-        python3Packages.pip
-        python3Packages.numpy
+        python311
+        python311Packages.pip
+        python311Packages.numpy
       ];
     })
   ]);

@@ -124,6 +124,7 @@
       yed        # Diagrams
 
       kate       # Editor KDE
+      neofetch
 
       simple-scan
       onlyoffice-bin
