@@ -1,7 +1,6 @@
 { pkgs, vars, ... }:
 
 {
-  home-manager.users.${vars.user} = {
     # Configure neovim
     programs.neovim = {
 
@@ -46,5 +45,4 @@
     programs.git.ignores = [
       ".ccls-cache/"
     ];
-  };
 }

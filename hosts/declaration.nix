@@ -36,7 +36,7 @@
     ../modules/kanshi
     ../modules/kitty
     ../modules/mako
-    #../modules/mangohud
+    ../modules/mangohud
     ../modules/applications/multimedia/mpv
     ../modules/neovim
     ../modules/nextcloud
@@ -55,7 +55,7 @@
     ../modules/tailscale
     ../modules/applications/communication/teams
     ../modules/themes
-    #../modules/unity
+    ../modules/unity
     ../modules/applications/development/vs-code
     ../modules/desktop-environnement/waybar
     ../modules/desktop-environnement/wlogout

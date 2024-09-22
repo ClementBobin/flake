@@ -1,7 +1,6 @@
 { pkgs, vars, ... }:
 
 {
-  home-manager.users.${vars.user} = {
     # Configure neovim
     programs.neovim = {
 
@@ -29,5 +28,4 @@
       # Helps with searching for files
       fd
     ];
-  };
 }

@@ -34,20 +34,20 @@
           run-with-xwayland = "env -u WAYLAND_DISPLAY";
         };
 
-        #ohMyZsh = {                               # Plug-ins
-          #enable = true;
-          #plugins = [ "git" ];
-        #};
+        oh-my-zsh = {                               # Plug-ins
+          enable = true;
+          plugins = [ "git" ];
+        };
 
-        #shellInit = ''
+        initExtra = ''
           # Spaceship
-          #source ${pkgs.spaceship-prompt}/share/zsh/site-functions/prompt_spaceship_setup
-          #autoload -U promptinit; promptinit
+          source ${pkgs.spaceship-prompt}/share/zsh/site-functions/prompt_spaceship_setup
+          autoload -U promptinit; promptinit
           # Hook direnv
-          #emulate zsh -c "$(direnv hook zsh)"
+          emulate zsh -c "$(direnv hook zsh)"
 
-          #eval "$(direnv hook zsh)"
-        #'';      
+          eval "$(direnv hook zsh)"
+        '';      
 
         # Install plugins
         plugins = [

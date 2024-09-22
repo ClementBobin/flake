@@ -16,7 +16,7 @@
 
   services = {
     xserver = {
-      videoDrivers = ["nvidia" "modesetting"];
+      videoDrivers = ["nvidia"];
       enable = true;
       desktopManager.gnome.enable = true;
       windowManager.qtile.enable = true;
@@ -46,6 +46,10 @@
     clinfo  # Optional, to verify OpenCL setup
     #libEGL
     #libEGLnvidia-settings
+    supergfxctl
+    gnomeExtensions.battery-threshold
+    gnomeExtensions.battery-health-charging
+    polkit_gnome
 
     (pkgs.writeShellScriptBin "nvidia-offload" ''
       export __NV_PRIME_RENDER_OFFLOAD=1
@@ -67,11 +71,6 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
-    prime = {
-      #offload.enable = true;
-      allowExternalGpu = false;  # Enable if using an external GPU.
-    };
-    #powerManagement.finegrained = true;
   };
 
   # head /sys/class/drm/*/status
@@ -94,6 +93,8 @@
     enable = true;
     xwayland.enable = true;
   };
+
+  services.asusd.enable = true;
 
   ##################
   # Custom modules #
@@ -129,22 +130,22 @@
   gtk.enable = true;
   hyprland.enable = true;
   kitty.enable = true;
-  #mangohud.enable = true;
+  mangohud.enable = true;
   mpv.enable = true;
-  #neovim.enable = true;
+  neovim.enable = true;
   nextcloud.enable = true;
   obs-studio.enable = true;
   openshot.enable = true;
   obsidian.enable = true;
   parsec.enable = true;
-  #qt.config.enable = true;
+  qt.config.enable = true;
   rofi.enable = true;
   security.enable = true;
   spotify.enable = true;
   starship.enable = true;
   tailscale.enable = true;
   teams-for-linux.enable = true;
-  #unity.enable = true; # failed
+  unity.enable = true; # failed
   vs-code.enable = true;
   waybar.enable = true;
   wlogout.enable = true;

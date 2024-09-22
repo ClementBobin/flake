@@ -25,11 +25,10 @@
 
     # Qt configuration for home-manager
     (lib.mkIf (config.qt.config.installMethod == "home-manager") {
+      environment.systemPackages = with pkgs; [
+        qt5ct
+      ];
       home-manager.users.${vars.user} = {
-        # Enable qt configuration
-        programs.qt = {
-          enable = true;
-        };
 
         # Configure qt5
         # Note that we use .text here so that theming can append to it
@@ -49,6 +48,10 @@
       environment.systemPackages = with pkgs; [
         qt5ct
       ];
+
+      # Configure qt5
+      # Note that we use .text here so that theming can append to it
+      #xdg.configFile."qt5ct/qt5ct.conf".text = builtins.readFile ./qt5ct.conf;
 
       # Ensure Qt environment variables are set
       environment.variables = {

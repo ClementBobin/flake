@@ -1,7 +1,6 @@
 { pkgs, vars, ... }:
 
 {
-  home-manager.users.${vars.user} = {
     # Configure neovim
     programs.neovim = {
 
@@ -12,5 +11,4 @@
         config = builtins.readFile ./config.lua;
       }];
     };
-  };
 }

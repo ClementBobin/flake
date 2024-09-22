@@ -1,7 +1,6 @@
 { pkgs, vars, ... }:
 
 {
-  home-manager.users.${vars.user} = {
     # Configure neovim
     programs.neovim = {
 
@@ -22,5 +21,4 @@
         '';
       }];
     };
-  };
 }

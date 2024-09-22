@@ -1,4 +1,4 @@
-{ config, pkgs, vars, lib, ... }:
+{ config, pkgs, stable, vars, lib, ... }:
 
 {
   # Add options for Unity
@@ -27,7 +27,7 @@
       home-manager.users.${vars.user} = {
         # Configure Unity
         home.packages = with pkgs; [
-          unityhub
+          stable.unityhub
         ];
       };
     })
