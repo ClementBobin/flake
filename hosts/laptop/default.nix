@@ -18,7 +18,7 @@
     xserver = {
       videoDrivers = ["nvidia"];
       enable = true;
-      desktopManager.gnome.enable = true;
+      desktopManager.plasma5.enable = true;
       windowManager.qtile.enable = true;
     };
     displayManager = {
@@ -39,7 +39,7 @@
     unityhub
 
     # download youtube video
-    #youtube-dl
+    yt-dlp
 
     libglvnd
     libGL
@@ -64,6 +64,7 @@
 
     # Cheat sheets
     navi
+    tmux
     lshw
     home-manager
     neofetch
@@ -101,7 +102,7 @@
   ##################
 
   laptop.enable = true;
-  #x11wm.enable = true;
+  x11wm.enable = true;
   themes.enable = true;
 
   brave.enable = true;

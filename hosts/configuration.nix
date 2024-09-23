@@ -196,8 +196,8 @@
     };
     gc = {
       automatic = true;
-      dates = "monthly";
-      options = "--delete-older-than 7d";
+      dates = "weekly";
+      options = "--delete-older-than 2d";
     };
     package = pkgs.nixVersions.latest;
     registry.nixpkgs.flake = inputs.nixpkgs;
