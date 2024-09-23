@@ -10,7 +10,7 @@
 
     docker.installMethod = lib.mkOption {
       type = lib.types.str;
-      default = "home-manager";
+      default = "environment";
       description = "Specify the installation method: 'home-manager' or 'environment'.";
     };
   };
@@ -26,6 +26,10 @@
 
       # Installation via environment.systemPackages
       (lib.mkIf (config.docker.installMethod == "environment") {
+        users.groups.docker.members = [ "${vars.user}" ];
+
+        virtualisation.docker.enable = true;
+
         environment.systemPackages = [ pkgs.docker pkgs.docker-compose ];
       })
     ]
