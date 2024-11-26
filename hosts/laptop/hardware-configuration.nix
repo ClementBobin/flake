@@ -10,8 +10,8 @@
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" "nvidia" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.nvidiaPackages.stable ];
+  boot.kernelModules = [ "kvm-amd" "nvidia" "uvcvideo"];
+  boot.extraModulePackages = [ config.boot.kernelPackages.nvidiaPackages.stable config.boot.kernelPackages.v4l2loopback ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/1322ebc5-26c8-4486-a2da-2ac0cf5e0c75";
@@ -34,4 +34,5 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.enableAllFirmware = true;
 }

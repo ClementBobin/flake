@@ -29,8 +29,7 @@
         # Configure Python packages
         home.packages = with pkgs; [
           python311
-          python311Packages.pip
-          python311Packages.numpy
+          python311Packages.pipx
         ];
       };
     })
@@ -39,8 +38,7 @@
     (lib.mkIf (config.python.installMethod == "environment") {
       environment.systemPackages = with pkgs; [
         python311
-        python311Packages.pip
-        python311Packages.numpy
+        python311Packages.pipx
       ];
     })
   ]);

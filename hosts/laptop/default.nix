@@ -10,7 +10,8 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.grub.device = "nodev";
+  boot.loader.grub.enable = false;
+
 
   networking.networkmanager.enable = true;
 
@@ -19,11 +20,11 @@
       videoDrivers = ["nvidia"];
       enable = true;
       desktopManager.plasma5.enable = true;
-      windowManager.qtile.enable = true;
+      #windowManager.qtile.enable = true;
     };
     displayManager = {
-      sddm.enable = true;
-      sddm.wayland.enable = true;
+      #sddm.enable = true;
+      #sddm.wayland.enable = true;
     };
   };
 
@@ -32,24 +33,21 @@
     enable32Bit = lib.mkDefault true;
   };
 
-  environment.systemPackages = with pkgs; [    
+  environment.systemPackages = with pkgs; [
     asusctl
     #bluemail
     #rnix-lsp
-    unityhub
 
     # download youtube video
-    yt-dlp
+    #yt-dlp
 
     libglvnd
     libGL
-    clinfo  # Optional, to verify OpenCL setup
+    #clinfo  # Optional, to verify OpenCL setup
     #libEGL
-    #libEGLnvidia-settings
-    supergfxctl
-    gnomeExtensions.battery-threshold
-    gnomeExtensions.battery-health-charging
-    polkit_gnome
+    #supergfxctl
+    #gnomeExtensions.battery-threshold
+    #gnomeExtensions.battery-health-charging
 
     (pkgs.writeShellScriptBin "nvidia-offload" ''
       export __NV_PRIME_RENDER_OFFLOAD=1
@@ -65,17 +63,36 @@
     # Cheat sheets
     navi
     tmux
-    lshw
+    #lshw
     home-manager
-    neofetch
+    fastfetch
+
+    jetbrains.rider
+    jetbrains.datagrip
+    jetbrains.phpstorm
+    jetbrains.webstorm
+    jetbrains.gateway
+    jetbrains-toolbox
+
+    chromedriver
+
+    #virtualbox
+    #flatpak
   ]);
 
   hardware.nvidia = {
     modesetting.enable = true;
   };
 
+  boot.plymouth.enable = true;
+  boot.plymouth.theme = "breeze";
+
   # head /sys/class/drm/*/status
   boot.kernelParams = [
+    "nvidia-drm.modeset=1"
+    "nomodeset"
+    "usbcore.autosuspend=-1"
+    "video=efifb:off"
     "video=HDMI-A-1:1920x1080@60"
   ];
 
@@ -87,13 +104,15 @@
       remotePlay.openFirewall = true;
       #platformOptimizations.enable = true;
     };
-    gamemode.enable = true; 
+    gamemode.enable = true;
   };
 
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
   };
+
+  hardware.nvidia.open = false;
 
   services.asusd.enable = true;
 
@@ -117,7 +136,7 @@
   nodejs.enable = true;
   php.enable = true;
   python.enable = true;
-  wine.enable = true; 
+  wine.enable = true;
 
 
   fcitx.enable = true;
@@ -133,7 +152,7 @@
   kitty.enable = true;
   mangohud.enable = true;
   mpv.enable = true;
-  neovim.enable = true;
+  #neovim.enable = true;
   nextcloud.enable = true;
   obs-studio.enable = true;
   openshot.enable = true;
@@ -146,10 +165,10 @@
   starship.enable = true;
   tailscale.enable = true;
   teams-for-linux.enable = true;
-  unity.enable = true; # failed
+  #unity.enable = false;
   vs-code.enable = true;
   waybar.enable = true;
   wlogout.enable = true;
   xdg.config.enable = true;
-  zsh.enable = true; 
+ zsh.enable = true;
 }

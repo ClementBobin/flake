@@ -61,7 +61,7 @@
     ../modules/desktop-environnement/wlogout
     ../modules/xdg
     ../modules/zsh
-    
+
 
 
 

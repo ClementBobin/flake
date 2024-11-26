@@ -19,7 +19,7 @@ in
   #################################
   # Laptop Profile                #
   #################################
-  laptop = lib.nixosSystem {                                
+  laptop = lib.nixosSystem {
     inherit system;
     specialArgs = {
       inherit inputs stable vars;

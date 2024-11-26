@@ -32,7 +32,7 @@
   ####################
   users.users.${vars.user} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd" "plex" "vboxusers" "wireshark" ];
+    extraGroups = [ "wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd" ];
   };
 
   ####################
@@ -85,7 +85,7 @@
       };
     };
   };
-  
+
   hardware.pulseaudio.enable = false;
 
   ####################
@@ -100,28 +100,23 @@
     systemPackages = with pkgs; [
       git         # Version Control
       killall     # Process Killer
-      nano        # Text Editor
       nix-tree    # Browse Nix Store
-      wget       # Retriever
-      tree       # View tree 
-      
+      tree       # View tree
+
       alsa-utils # Audio Control
-      feh        # Image Viewer
-      mpv        # Media Player
       pavucontrol# Audio Control
       pipewire   # Audio Server/Control
       #pulseaudio # Audio Server/Control
-      vlc        # Media Player
       stremio    # Media Streamer
-		
+
       okular     # PDF Viewer
       p7zip      # Zip Encryption
       unzip      # Zip Files
       unrar      # Rar Files
-      zip        # Zip
+      #zip        # Zip
 
       nmap       # Network discovery and security auditing
-      yed        # Diagrams
+      #yed        # Diagrams
 
       kate       # Editor KDE
       neofetch
@@ -129,7 +124,7 @@
       simple-scan
       onlyoffice-bin
 
-      openssl_3_3
+      #openssl_3_3
     ] ++
     (with stable; [
       # Apps
@@ -180,12 +175,12 @@
   ####################
   # Flatpak          #
   ####################
-  #flatpak = {
-    #enable = true;
-    #extraPackages = [
-      #"com.github.tchx84.Flatseal"
-    #];
-  #};
+  flatpak = {
+    enable = true;
+    extraPackages = [
+      "com.github.tchx84.Flatseal"
+    ];
+  };
 
   ####################
   # Nix Settings     #
