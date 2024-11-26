@@ -15,20 +15,12 @@
   # VS Code configuration, conditional on vs-code.enable
   config = lib.mkIf config.vs-code.enable {
 
-    # Set XDG desktop variable globally
-    environment.variables.XDG_CURRENT_DESKTOP = "KDE:GNOME";
-
     # Home Manager configuration for VS Code
     home-manager.users.${vars.user} = {
 
     programs.vscode = {
       enable = true;
     };
-
-      # Activate extension installation script
-      home.activation.install-vscode-extensions = lib.mkAfter ''
-        ${pkgs.writeScript "install-vscode-extensions.sh" (builtins.readFile ./scripts/install-vscode-extensions.sh)}
-      '';
 
       # Add config file for VS Code
       xdg.configFile."Code/User/settings.json" = {

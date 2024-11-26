@@ -12,14 +12,14 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.enable = false;
 
-
+  home-manager.backupFileExtension = "hm-backup";
   networking.networkmanager.enable = true;
 
   services = {
     xserver = {
       videoDrivers = ["nvidia"];
       enable = true;
-      desktopManager.plasma5.enable = true;
+      #desktopManager.plasma5.enable = true;
       #windowManager.qtile.enable = true;
     };
     displayManager = {
@@ -84,9 +84,6 @@
     modesetting.enable = true;
   };
 
-  boot.plymouth.enable = true;
-  boot.plymouth.theme = "breeze";
-
   # head /sys/class/drm/*/status
   boot.kernelParams = [
     "nvidia-drm.modeset=1"
@@ -124,7 +121,7 @@
   x11wm.enable = true;
   themes.enable = true;
 
-  brave.enable = true;
+  #brave.enable = true;
   btop.enable = true;
   dbeaver.enable = true;
   discord.enable = true;
@@ -135,29 +132,29 @@
   csharp.enable = true;
   nodejs.enable = true;
   php.enable = true;
-  python.enable = true;
+  #python.enable = true;
   wine.enable = true;
 
 
   fcitx.enable = true;
-  filezilla.enable = true;
+  #filezilla.enable = true;
   firefox.enable = true;
   game.enable = true;
   gimp.enable = true;
   git.enable = true;
-  gitkraken.enable = true;
+  #gitkraken.enable = true;
   google-chrome.enable = true;
   gtk.enable = true;
   hyprland.enable = true;
   kitty.enable = true;
   mangohud.enable = true;
-  mpv.enable = true;
+  #mpv.enable = true;
   #neovim.enable = true;
-  nextcloud.enable = true;
+  #nextcloud.enable = true;
   obs-studio.enable = true;
   openshot.enable = true;
   obsidian.enable = true;
-  parsec.enable = true;
+  #parsec.enable = true;
   qt.config.enable = true;
   rofi.enable = true;
   security.enable = true;
@@ -170,5 +167,5 @@
   waybar.enable = true;
   wlogout.enable = true;
   xdg.config.enable = true;
- zsh.enable = true;
+  zsh.enable = true;
 }

@@ -61,6 +61,7 @@
     ../modules/desktop-environnement/wlogout
     ../modules/xdg
     ../modules/zsh
+    /home/mirage/Templates/flake2/modules/plasma5/default.nix
 
 
 

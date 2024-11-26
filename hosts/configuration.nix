@@ -118,8 +118,8 @@
       nmap       # Network discovery and security auditing
       #yed        # Diagrams
 
-      kate       # Editor KDE
-      neofetch
+      #kate       # Editor KDE
+      #neofetch
 
       simple-scan
       onlyoffice-bin
