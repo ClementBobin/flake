@@ -100,7 +100,7 @@
     systemPackages = with pkgs; [
       git         # Version Control
       killall     # Process Killer
-      nix-tree    # Browse Nix Store
+      #nix-tree    # Browse Nix Store
       tree       # View tree
 
       alsa-utils # Audio Control
@@ -110,12 +110,12 @@
       stremio    # Media Streamer
 
       okular     # PDF Viewer
-      p7zip      # Zip Encryption
+      #p7zip      # Zip Encryption
       unzip      # Zip Files
       unrar      # Rar Files
       #zip        # Zip
 
-      nmap       # Network discovery and security auditing
+      #nmap       # Network discovery and security auditing
       #yed        # Diagrams
 
       #kate       # Editor KDE

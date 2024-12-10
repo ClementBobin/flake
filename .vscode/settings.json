@@ -1,5 +1,6 @@
 {
     "conventionalCommits.scopes": [
-        "V3.5"
+        "V3.5",
+        "V3.6"
     ]
 }

@@ -18,6 +18,7 @@
     ../modules/applications/development/docker
     ../modules/dunst
     ../modules/environment/csharp.nix
+    /home/mirage/Templates/flake2/modules/environment/flutter.nix
     ../modules/environment/nodejs.nix
     ../modules/environment/php.nix
     ../modules/environment/python.nix

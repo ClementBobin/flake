@@ -12,19 +12,18 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.enable = false;
 
-  home-manager.backupFileExtension = "hm-backup";
   networking.networkmanager.enable = true;
 
   services = {
     xserver = {
       videoDrivers = ["nvidia"];
       enable = true;
-      #desktopManager.plasma5.enable = true;
+      desktopManager.plasma5.enable = true;
       #windowManager.qtile.enable = true;
     };
     displayManager = {
-      #sddm.enable = true;
-      #sddm.wayland.enable = true;
+      sddm.enable = true;
+      sddm.wayland.enable = true;
     };
   };
 
@@ -74,6 +73,8 @@
     jetbrains.gateway
     jetbrains-toolbox
 
+    diskonaut
+
     chromedriver
 
     #virtualbox
@@ -86,23 +87,8 @@
 
   # head /sys/class/drm/*/status
   boot.kernelParams = [
-    "nvidia-drm.modeset=1"
-    "nomodeset"
-    "usbcore.autosuspend=-1"
-    "video=efifb:off"
     "video=HDMI-A-1:1920x1080@60"
   ];
-
-  # hardware.enableAllFirmware = true;
-
-  programs = {
-    steam = {
-      enable = true;
-      remotePlay.openFirewall = true;
-      #platformOptimizations.enable = true;
-    };
-    gamemode.enable = true;
-  };
 
   programs.hyprland = {
     enable = true;
@@ -130,9 +116,10 @@
 
   # Environment
   csharp.enable = true;
+  #flutter.enable = true;
   nodejs.enable = true;
   php.enable = true;
-  #python.enable = true;
+  python.enable = true;
   wine.enable = true;
 
 
@@ -146,13 +133,13 @@
   google-chrome.enable = true;
   gtk.enable = true;
   hyprland.enable = true;
-  kitty.enable = true;
+  #kitty.enable = true;
   mangohud.enable = true;
   #mpv.enable = true;
   #neovim.enable = true;
   #nextcloud.enable = true;
   obs-studio.enable = true;
-  openshot.enable = true;
+  #openshot.enable = true;
   obsidian.enable = true;
   #parsec.enable = true;
   qt.config.enable = true;

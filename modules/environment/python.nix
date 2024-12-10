@@ -29,7 +29,7 @@
         # Configure Python packages
         home.packages = with pkgs; [
           python311
-          python311Packages.pipx
+          #python311Packages.pipx
         ];
       };
     })

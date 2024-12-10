@@ -35,14 +35,14 @@
         # hardware.new-lg4ff.enable = true;
 
         home.packages = with pkgs; [
-          heroic         # Game Launcher
-          lutris         # Game Launcher
+          #heroic         # Game Launcher
+          #lutris         # Game Launcher
           steam          # Game Launcher
           stable.playonlinux # break (unstable) cause wxpy-4.2.1 not suported for py3.12
           protonup-qt
           protontricks
           stable.prismlauncher
-          inputs.nix-gaming.packages.${pkgs.system}.star-citizen
+          #inputs.nix-gaming.packages.${pkgs.system}.star-citizen
           vulkan-tools
           # Uncomment as needed:
           # inputs.nix-gaming.packages.${pkgs.system}.northstar-proton
@@ -64,8 +64,8 @@
         #programs.gamemode.enable = true;          # Better Gaming Performance
                                                   # Steam: Right-click game - Properties - Launch options: gamemoderun %command%
                                                   # Lutris: General Preferences - Enable Feral GameMode
-                                                  #       
-        
+                                                  #
+
         # Environment variables for GameMode
         home.sessionVariables = {
           LD_PRELOAD = "${pkgs.gamemode}/lib/libgamemodeauto.so";
@@ -76,15 +76,17 @@
     # Gaming tools configuration for environment
     (lib.mkIf (config.game.installMethod == "environment") {
       environment.systemPackages = with pkgs; [
-        stable.heroic
-        stable.lutris
+        #stable.heroic
+        #stable.lutris
         stable.steam
         (steam.override { usePrimus = true; })
         stable.playonlinux
         stable.protonup-qt
         stable.protontricks
         stable.prismlauncher
-        inputs.nix-gaming.packages.${pkgs.system}.star-citizen
+        stable.mangohud
+        stable.bottles
+        #inputs.nix-gaming.packages.${pkgs.system}.star-citizen
         stable.vulkan-tools
         # Uncomment as needed:
         # inputs.nix-gaming.packages.${pkgs.system}.northstar-proton
@@ -98,9 +100,10 @@
         steam = {
           enable = true;
           remotePlay.openFirewall = true;
+          gamescopeSession.enable = true;
           #platformOptimizations.enable = true;
         };
-        gamemode.enable = true; 
+        gamemode.enable = true;
       };
 
       # Ensure Steam and other unfree packages are allowed
@@ -109,7 +112,7 @@
         "steam"
         "steam-original"
         "steam-runtime"
-      ]; 
+      ];
     })
 
     # Allow unfree packages for Steam
